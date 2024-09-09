@@ -2,7 +2,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import userRoute from './routes/userRoute.js';
 import mongoose from './config/database.js';
-
 import socialRoute from './routes/socialRoute.js';
 
 dotenv.config({ path: ".env" });
