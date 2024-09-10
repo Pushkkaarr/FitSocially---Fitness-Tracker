@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
-app.use("/api/v1/user", userRoute);
-app.use("/api/v1/social", socialRoute);
+app.use("/api/user", userRoute);
+app.use("/api/social", socialRoute);
 
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
