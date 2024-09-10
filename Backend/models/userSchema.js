@@ -1,9 +1,17 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose';
 
-mongoose.Schema({
+const userSchema=mongoose.Schema({
     name:{
         type:String,
         required:true
+    },
+    password:{
+        type:String,
+        required:true
+    },
+    is_Online:{
+        type:String,
+        default:'0'
     },
     email:{
         type:String,
@@ -29,4 +37,8 @@ mongoose.Schema({
         type:Number,
         required:true
     },
-})
+},
+{timestamps:true
+});
+
+module.exports = mongoose.Model('User',userSchema);
