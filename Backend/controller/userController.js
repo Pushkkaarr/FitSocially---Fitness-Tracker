@@ -3,6 +3,21 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const registerLoad = async(req,res)=>{
+          try {
+            
+          } catch (error) {
+            console.log.apply(error.message);
+          }
+} 
+
+const register = async(req,res)=>{
+        try {
+            
+        } catch (error) {
+            console.log(error.message); 
+        }
+}
 export const profile=async(req,res)=>{
     try {
         return res.json({
