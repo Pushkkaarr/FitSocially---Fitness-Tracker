@@ -15,7 +15,8 @@ const userSchema=mongoose.Schema({
     },
     email:{
         type:String,
-        required:true
+        required:true,
+        unique :true
     },
     age:{
         type:Number,
@@ -37,6 +38,10 @@ const userSchema=mongoose.Schema({
         type:Number,
         required:true
     },
+    profile_pic :{
+        type:String, //url to the image
+        default:""
+    }
 },
 {timestamps:true
 });

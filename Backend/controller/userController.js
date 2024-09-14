@@ -105,7 +105,7 @@ export const dietPlan=async(req,res)=>{
 
     try {
         // Spoonacular API request
-        const apiKey ='9c7b707cb0764eecb138d0c1ec86f716' ;
+        const apiKey =process.env.DIET_API_KEY;
         const response = await axios.get('https://api.spoonacular.com/mealplanner/generate', {
             params: {
                 timeFrame,
