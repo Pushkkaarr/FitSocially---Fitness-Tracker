@@ -1,21 +1,48 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import User from '../models/userSchema.js'
+import bcryptjs from'bcryptjs';
 
 dotenv.config();
 
-const registerLoad = async(req,res)=>{
-          try {
-            
-          } catch (error) {
-            console.log.apply(error.message);
-          }
-} 
-
-const register = async(req,res)=>{
+export const registerUser = async(req,res)=>{
         try {
-            
+            const{name,email,password,proifle_pic} = req.body
+
+            const checkEmail = await User.findOne({email}) // to find already registered user
+
+             if(checkEmail){
+                return res.status(400).json({
+                    message : "Already User Exists",
+                    error:true
+                })
+             }
+
+             //password into hashPassword
+             const salt = await bcryptjs.genSalt(10)
+             const hashPassword = await bcryptjs.hash(password,salt)
+
+             const payload ={
+                name,
+                email,
+                proifle_pic,
+                password : hashPassword
+             }
+
+             const user = new User(payload)
+             const userSave = await user.save()
+
+             return res.status(201).json({
+                message : "User Registered Successfully",
+                data : userSave,
+                success : true
+             })
+
         } catch (error) {
-            console.log(error.message); 
+            return res.status(500).json({
+                message:error.message || error,
+                error:true
+            })
         }
 }
 export const profile=async(req,res)=>{

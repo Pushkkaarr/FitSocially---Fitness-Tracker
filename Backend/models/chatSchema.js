@@ -43,5 +43,10 @@ const chatSchema = mongoose.Schema({
 {timestamps:true
 });
 
-module.exports = mongoose.Model('Message',messageSchema);
-module.exports = mongoose.Model('Chat',chatSchema);
+const Messages = mongoose.model('Message', messageSchema);
+const Chats = mongoose.model('Chat', chatSchema);
+
+module.exports ={
+    Messages,
+    Chats
+}
