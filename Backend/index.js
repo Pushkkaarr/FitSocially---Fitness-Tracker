@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import userRoute from './routes/userRoute.js';
 import mongoose from './config/database.js';
 import socialRoute from './routes/socialRoute.js';
+import cookiesParser from 'cookie-parser';
 
 dotenv.config({ path: ".env" });
 
@@ -10,6 +11,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(express.json());
+app.use(cookiesParser())
 
 app.get('/', (req, res) => {
   res.send('Hello World!');

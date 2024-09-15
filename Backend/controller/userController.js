@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import User from '../models/userSchema.js'
 import bcryptjs from'bcryptjs';
 import jwt from 'jsonwebtoken'
+import getUserDetailsFromToken  from '../helpers/getUserDetailsFromToken.js';
 
 dotenv.config();
 
@@ -114,6 +115,41 @@ export const checkPassword = async(req,res)=>{
     }
 }
 
+export const userDetails = async(req,res)=>{
+    try {
+        const token = req.cookies.token || ""
+
+        const user = await getUserDetailsFromToken(token)
+
+        return res.status(200).json({
+            message : "user details",
+            data : user
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : error.message || error,
+            error : true
+        })
+    }
+}
+export const logout = async(req,res)=>{
+    try {
+        const cookieOptions = {
+            http : true,
+            secure : true
+        }
+
+        return res.cookie('token','',cookieOptions).status(200).json({
+            message : "session out",
+            success : true
+    })
+    } catch (error) {
+        return res.status(500).json({
+            message : error.message || error,
+            error : true
+        })
+    }
+}
 export const profile=async(req,res)=>{
     try {
         return res.json({
