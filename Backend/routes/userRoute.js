@@ -2,12 +2,14 @@ import  express  from "express";
 import bodyParser from 'body-parser';
 import multer from 'multer';
 import path from 'path';
-//import userController from '../controller/userController.js';
-import { checkEmail,registerUser,caloriesCalculator, dietPlan, profile,workOutPlan } from "../controller/userController.js";
+import { logout,userDetails,checkPassword,checkEmail,registerUser,caloriesCalculator, dietPlan, profile,workOutPlan } from "../controller/userController.js";
 const router=express.Router();
 
-router.route("/register").post(registerUser)
-router.route("/checkEmail").post(checkEmail)
+router.route("/loginUser").get(userDetails) //Login User Details
+router.route("/logout").get(logout) //Logout user
+router.route("/register").post(registerUser) //registering User
+router.route("/checkPassword").post(checkPassword)//verifying password
+router.route("/checkEmail").post(checkEmail)//new user or already registered user
 router.route("/profile").get(profile)
 router.route("/calculate-calories").post(caloriesCalculator)
 router.route("/dietPlan").get(dietPlan)
