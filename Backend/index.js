@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 
+//api endpoints
 app.use("/api/user", userRoute);
 app.use("/api/social", socialRoute);
 

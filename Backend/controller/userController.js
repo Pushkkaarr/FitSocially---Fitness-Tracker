@@ -1,7 +1,118 @@
 import axios from 'axios';
 import dotenv from 'dotenv';
+import User from '../models/userSchema.js'
+import bcryptjs from'bcryptjs';
+import jwt from 'jsonwebtoken'
 
 dotenv.config();
+
+export const registerUser = async(req,res)=>{
+        try {
+            const{name,email,password,proifle_pic} = req.body
+
+            const checkEmail = await User.findOne({email}) // to find already registered user
+
+             if(checkEmail){
+                return res.status(400).json({
+                    message : "Already User Exists",
+                    error:true
+                })
+             }
+
+             //password into hashPassword
+             const salt = await bcryptjs.genSalt(10)
+             const hashPassword = await bcryptjs.hash(password,salt)
+
+             const payload ={
+                name,
+                email,
+                proifle_pic,
+                password : hashPassword
+             }
+
+             const user = new User(payload)
+             const userSave = await user.save()
+
+             return res.status(201).json({
+                message : "User Registered Successfully",
+                data : userSave,
+                success : true
+             })
+
+        } catch (error) {
+            return res.status(500).json({
+                message:error.message || error,
+                error:true
+            })
+        }
+}
+
+export const checkEmail = async(req,res)=>{
+    try {
+        const { email } = req.body
+
+        const checkEmail = await User.findOne({email}).select("-password")
+
+        if(!checkEmail){
+            return res.status(400).json({
+                message : "user not exit",
+                error : true
+            })
+        }
+
+        return res.status(200).json({
+            message : "email verify",
+            success : true,
+            data : checkEmail
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message : error.message || error,
+            error : true
+        })
+    }
+}
+
+export const checkPassword = async(req,res)=>{
+    try {
+        const { password, userId } = req.body
+
+        const user = await User.findById(userId)
+
+        const verifyPassword = await bcryptjs.compare(password,user.password)
+
+        if(!verifyPassword){
+            return res.status(400).json({
+                message : "Please check password",
+                error : true
+            })
+        }
+
+        const tokenData = {
+            id : user._id,
+            email : user.email 
+        }
+        const token = await jwt.sign(tokenData,process.env.JWT_SECRET_KEY,{ expiresIn : '1d'})
+
+        const cookieOptions = {
+            http : true,
+            secure : true
+        }
+
+        return res.cookie('token',token,cookieOptions).status(200).json({
+            message : "Login successfully",
+            token : token,
+            success :true
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            message : error.message || error,
+            error : true
+        })
+    }
+}
 
 export const profile=async(req,res)=>{
     try {
@@ -90,7 +201,7 @@ export const dietPlan=async(req,res)=>{
 
     try {
         // Spoonacular API request
-        const apiKey =process.env.DIET_API_KEY ;
+        const apiKey =process.env.DIET_API_KEY;
         const response = await axios.get('https://api.spoonacular.com/mealplanner/generate', {
             params: {
                 timeFrame,
