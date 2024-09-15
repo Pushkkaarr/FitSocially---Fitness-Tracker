@@ -3,8 +3,7 @@ import bodyParser from 'body-parser';
 import multer from 'multer';
 import path from 'path';
 //import userController from '../controller/userController.js';
-import { checkEmail,registerUser,caloriesCalculator, dietPlan, profile } from "../controller/userController.js";
-import { caloriesCalculator, dietPlan, profile, workOutPlan } from "../controller/userController.js";
+import { checkEmail,registerUser,caloriesCalculator, dietPlan, profile,workOutPlan } from "../controller/userController.js";
 const router=express.Router();
 
 router.route("/register").post(registerUser)
