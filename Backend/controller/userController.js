@@ -80,7 +80,7 @@ export const caloriesCalculator=async(req,res)=>{
     }
 }
 
-
+// Endpoint to get a Diet plan based on user inputs
 export const dietPlan=async(req,res)=>{
     const { timeFrame, targetCalories, diet, exclude } = req.body;
 
@@ -90,7 +90,7 @@ export const dietPlan=async(req,res)=>{
 
     try {
         // Spoonacular API request
-        const apiKey ='9c7b707cb0764eecb138d0c1ec86f716' ;
+        const apiKey =process.env.DIET_API_KEY ;
         const response = await axios.get('https://api.spoonacular.com/mealplanner/generate', {
             params: {
                 timeFrame,
@@ -113,3 +113,53 @@ export const dietPlan=async(req,res)=>{
     }
     
 }
+
+
+
+// Endpoint to get a workout plan based on user inputs
+export const workOutPlan= async (req, res) => {
+    const {
+        goal,
+        fitness_level,
+        preferences,
+        health_conditions,
+        schedule,
+        lang,
+        plan_duration_weeks
+      } = req.body;
+    
+      const options = {
+        method: 'POST',
+        url: 'https://ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com/generateWorkoutPlan',
+        headers: {
+          'content-type': 'application/json',
+          'X-RapidAPI-Key': process.env.WORKOUT_API_KEY,
+          'X-RapidAPI-Host': 'ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com'
+        },
+        data: {
+          goal,
+          fitness_level,
+          preferences,
+          health_conditions,
+          schedule,
+          lang,
+          plan_duration_weeks
+        }
+      };
+    
+      try {
+        const response = await axios.request(options);
+        const workoutPlan = response.data.result;
+    
+        // Check if the result is ready
+        if (workoutPlan) {
+          res.json(workoutPlan);
+        } else {
+          res.status(202).json({ message: 'Workout plan is being generated, please try again shortly.' });
+        }
+      } catch (error) {
+        console.error('Error generating workout plan:', error.message);
+        res.status(500).json({ error: 'Failed to generate workout plan' });
+      }
+    };
+    
