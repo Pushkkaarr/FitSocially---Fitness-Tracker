@@ -132,6 +132,37 @@ export const userDetails = async(req,res)=>{
         })
     }
 }
+
+export const updateUserDeatils = async(req,res)=>{
+    try {
+        const token = req.cookies.token || ""
+
+        const user = await getUserDetailsFromToken(token)
+
+        const { name, profile_pic } = req.body
+
+        const updateUser = await User.updateOne({ _id : user._id },{
+            name,
+            profile_pic
+        })
+
+        const userInfomation = await User.findById(user._id)
+
+        return res.json({
+            message : "User Details Successfully Updated",
+            data : userInfomation,
+            success : true
+        })
+
+
+    } catch (error) {
+        return res.status(500).json({
+            message : error.message || error,
+            error : true
+        })
+    }
+}
+
 export const logout = async(req,res)=>{
     try {
         const cookieOptions = {
