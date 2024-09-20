@@ -193,74 +193,63 @@ export const profile=async(req,res)=>{
 }
 
 export const caloriesCalculator=async(req,res)=>{
-    try {const { age, gender, height, weight, activityLevel, goal } = req.body;
-
-    if (!age || !gender || !height || !weight || !activityLevel || !goal) {
-        return res.status(400).json({ message: 'All fields are required.' });
-    }
-
-    // Harris-Benedict Formula to calculate BMR
-    let bmr;
-    if (gender === 'male') {
-        bmr = 88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * age);
-    } else if (gender === 'female') {
-        bmr = 447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * age);
-    } else {
-        return res.status(400).json({ message: 'Invalid gender.' });
-    }
-
-    // Adjust BMR based on activity level
-    let activityMultiplier;
-    switch (activityLevel.toLowerCase()) {
-        case 'sedentary':
-            activityMultiplier = 1.2;
+    try {
+        const { age, gender, height, weight, activityLevel, goal } = req.body;
+    
+        // Validation logic
+        if (!age || !gender || !height || !weight || !activityLevel || !goal) {
+          return res.status(400).json({ error: "All fields are required." });
+        }
+    
+        const BMR =
+          gender === "male"
+            ? 66 + 6.23 * weight + 12.7 * height - 6.8 * age
+            : 655 + 4.35 * weight + 4.7 * height - 4.7 * age;
+    
+        let activityFactor;
+    
+        switch (activityLevel) {
+          case "sedentary":
+            activityFactor = 1.2;
             break;
-        case 'lightly active':
-            activityMultiplier = 1.375;
+          case "lightly active":
+            activityFactor = 1.375;
             break;
-        case 'moderately active':
-            activityMultiplier = 1.55;
+          case "moderately active":
+            activityFactor = 1.55;
             break;
-        case 'very active':
-            activityMultiplier = 1.725;
+          case "very active":
+            activityFactor = 1.725;
             break;
-        default:
-            return res.status(400).json({ message: 'Invalid activity level.' });
-    }
-
-    const TotalDailyEnergyExpenditur = bmr * activityMultiplier;
-
-    // Adjust calories based on the user's goal
-    let finalCalories;
-    switch (goal.toLowerCase()) {
-        case 'weight loss':
-            finalCalories = TotalDailyEnergyExpenditur - 500;
-            break;
-        case 'maintenance':
-            finalCalories = TotalDailyEnergyExpenditur;
-            break;
-        case 'muscle gain':
-            finalCalories = TotalDailyEnergyExpenditur + 500;
-            break;
-        default:
-            return res.status(400).json({ message: 'Invalid goal.' });
-    }
-
-    res.json({
-        BMR: bmr.toFixed(2),
-        TotalDailyEnergyExpenditur: TotalDailyEnergyExpenditur.toFixed(2),
-        finalCalories: finalCalories.toFixed(2),
-        message: `To achieve your goal of ${goal}, your daily calorie intake should be around ${finalCalories.toFixed(2)} calories.`
-    });
-        
-    } catch (error) {
-        console.log(error);
-    }
+          default:
+            return res.status(400).json({ error: "Invalid activity level" });
+        }
+    
+        const TotalDailyEnergyExpenditure = BMR * activityFactor;
+        let finalCalories;
+    
+        if (goal === "lose") {
+          finalCalories = TotalDailyEnergyExpenditure - 500;
+        } else if (goal === "gain") {
+          finalCalories = TotalDailyEnergyExpenditure + 500;
+        } else {
+          finalCalories = TotalDailyEnergyExpenditure; // Maintenance
+        }
+    
+        return res.status(200).json({
+          BMR: BMR,
+          TotalDailyEnergyExpenditure: TotalDailyEnergyExpenditure,
+          finalCalories: finalCalories,
+        });
+      } catch (error) {
+        console.error("Error calculating calories:", error);
+        return res.status(500).json({ error: "An error occurred while calculating calories." });
+      }
 }
 
 // Endpoint to get a Diet plan based on user inputs
 export const dietPlan=async(req,res)=>{
-    const { timeFrame, targetCalories, diet, exclude } = req.body;
+    const { timeFrame, targetCalories, diet, exclude } = req.query;
 
     if (!timeFrame || !targetCalories) {
         return res.status(400).json({ message: 'timeFrame and targetCalories are required.' });
@@ -286,9 +275,9 @@ export const dietPlan=async(req,res)=>{
             mealPlan
         });
     } catch (error) {
-        console.error('Error fetching meal plan:', error.response ? error.response.data : error.message);
-        res.status(500).json({ message: 'Failed to fetch the meal plan.', error: error.response ? error.response.data : error.message });
-    }
+        console.error('Error fetching meal plan:', error.message);
+        res.status(500).json({ message: 'Failed to fetch the meal plan.', error: error.message });
+    }    
     
 }
 
@@ -336,8 +325,8 @@ export const workOutPlan= async (req, res) => {
           res.status(202).json({ message: 'Workout plan is being generated, please try again shortly.' });
         }
       } catch (error) {
-        console.error('Error generating workout plan:', error.message);
-        res.status(500).json({ error: 'Failed to generate workout plan' });
-      }
+        console.error('Error generating workout plan:', error);
+        res.status(500).json({ error: 'Failed to generate workout plan', details: error.response ? error.response.data : error.message });
+    }
     };
     
