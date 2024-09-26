@@ -27,7 +27,7 @@ export const registerUser = async(req,res)=>{
              const payload ={
                 name,
                 email,
-                proifle_pic,
+                profile_pic,//profile spelling wrong hence error
                 password : hashPassword
              }
 
