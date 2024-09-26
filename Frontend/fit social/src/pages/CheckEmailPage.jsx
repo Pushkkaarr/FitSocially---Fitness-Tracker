@@ -27,7 +27,7 @@ const CheckEmailPage = () => {
     e.preventDefault()
     e.stopPropagation()
 
-    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/checkEmail`
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user/checkEmail`
 
     try {
         const response = await axios.post(URL,data)

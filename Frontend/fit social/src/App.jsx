@@ -7,6 +7,10 @@ import CalorieCalculator from './components/CalorieCalculator';
 import WorkoutPlan from './components/WorkoutPlan';
 import RegisterPage from './pages/RegisterPage';
 import Login from './pages/CheckEmailPage';
+import Password from './pages/CheckPasswordPage'
+import Forgotpassword from './pages/Forgotpassword';
+import { Provider } from 'react-redux'
+import { store } from './redux/store';
 
 const HomePage = () => (
   <>
@@ -22,17 +26,19 @@ const AppRoutes = () => {
       <Route path="/" element={<HomePage />} /> {/* Your home page */}
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/email" element={<Login />} />
-      {/* Add more routes as needed */}
+      <Route path="/password" element={<Password />} />
+      <Route path="/forgot-password" element={<Forgotpassword/>} />
     </Routes>
   );
 };
 
+
 const App = () => {
   return (
-    <>
+    <Provider store={store}> {/* Wrap your app in Provider */}
       <Toaster /> {/* Place Toaster at the top level */}
       <AppRoutes />
-    </>
+    </Provider>
   );
 };
 

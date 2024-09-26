@@ -20,23 +20,23 @@ const userSchema=mongoose.Schema({
     },
     age:{
         type:Number,
-        required:true
+        //required:true
     },
     contact:{
         type:Number,
-        required:true
+       // required:true
     },
     weight:{
         type:Number,
-        required:true
+        //required:true
     },
     BMI:{ //body mass index
         type:Number,
-        required:true
+        //required:true
     },
     height:{
         type:Number,
-        required:true
+       // required:true
     },
     profile_pic :{
         type:String, //url to the image
