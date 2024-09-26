@@ -9,10 +9,11 @@ import RegisterPage from './pages/RegisterPage';
 import Login from './pages/CheckEmailPage';
 import Password from './pages/CheckPasswordPage'
 import Forgotpassword from './pages/Forgotpassword';
+import Home from './pages/Home'
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
 
-const HomePage = () => (
+const DietPage = () => (
   <>
     <DietPlan />
     <CalorieCalculator />
@@ -23,7 +24,8 @@ const HomePage = () => (
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} /> {/* Your home page */}
+      <Route path="/" element={<Home />} />
+      <Route path="/diet" element={<DietPage />} /> {/* Your home page */}
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/email" element={<Login />} />
       <Route path="/password" element={<Password />} />
