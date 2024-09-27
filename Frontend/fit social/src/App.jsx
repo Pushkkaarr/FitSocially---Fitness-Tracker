@@ -10,6 +10,7 @@ import Login from './pages/CheckEmailPage';
 import Password from './pages/CheckPasswordPage'
 import Forgotpassword from './pages/Forgotpassword';
 import Home from './pages/Home'
+import MessagePage from './components/MessagePage';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
 
@@ -24,8 +25,10 @@ const DietPage = () => (
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/diet" element={<DietPage />} /> {/* Your home page */}
+      <Route path="/" element={<Home />}>
+          <Route path=":userId" element={<MessagePage />} /> 
+        </Route>
+      <Route path="/diet" element={<DietPage />} /> 
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/email" element={<Login />} />
       <Route path="/password" element={<Password />} />
