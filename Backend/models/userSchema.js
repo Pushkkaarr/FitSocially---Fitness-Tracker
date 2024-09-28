@@ -9,9 +9,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    is_Online:{
-        type:String,
-        default:'0'
+    online:{
+        type:Boolean,
+        default:false
     },
     email:{
         type:String,

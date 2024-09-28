@@ -188,7 +188,7 @@ export const searchUser= async (request,response)=>{
 
         const query = new RegExp(search,"i","g")
 
-        const user = await UserModel.find({
+        const user = await User.find({
             "$or" : [
                 { name : query },
                 { email : query }
