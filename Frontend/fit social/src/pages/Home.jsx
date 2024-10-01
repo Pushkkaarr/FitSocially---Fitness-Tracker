@@ -47,7 +47,10 @@ const Home = () => {
     })
 
     socketConnection.on('onlineUser',(data)=>{
-      console.log(data)
+      console.log(data);
+      console.log("Socket connected:", socketConnection.id);
+      console.error("Connection error:", err.message);
+      console.error("Connection error details:", err);
       dispatch(setOnlineUser(data))
     })
 

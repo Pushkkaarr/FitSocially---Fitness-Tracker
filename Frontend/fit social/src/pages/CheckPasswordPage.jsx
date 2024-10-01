@@ -56,6 +56,8 @@ const CheckPasswordPage = () => {
 
         if(response.data.success){
             dispatch(setToken(response?.data?.token))
+            console.log('Response Data:', response.data);
+
             localStorage.setItem('token',response?.data?.token)
 
             setData({

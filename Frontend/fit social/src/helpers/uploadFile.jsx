@@ -1,8 +1,5 @@
 const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-
-console.log('Cloud Name:', cloudName);
 const url = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
-console.log('Upload URL:', url);
 
 // Make the upload request using the constructed URL
 

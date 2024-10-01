@@ -21,13 +21,21 @@ const io = new Server(server,{
 /***
  * socket running at http://localhost:5173/
  */
-
+const PORT = process.env.PORT || 3000;
+server.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+});
 //online user
+
+
 const onlineUser = new Set()
 
 io.on('connection',async(socket)=>{
     console.log("connect User ", socket.id)
-
+    
+    socket.on('connect_error', (err) => {
+        console.error(`Connection error: ${err.message}`);
+    });
     const token = socket.handshake.auth.token 
 
     //current user details 

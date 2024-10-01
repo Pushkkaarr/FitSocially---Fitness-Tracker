@@ -25,7 +25,7 @@ const DietPage = () => (
 const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />}>
+      <Route path="/" element={<Home />}> {/* This the homepage of chat app */}
           <Route path=":userId" element={<MessagePage />} /> 
         </Route>
       <Route path="/diet" element={<DietPage />} /> 
