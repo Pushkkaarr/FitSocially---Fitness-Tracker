@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { FaDumbbell, FaCalendarAlt, FaUserPlus, FaWeightHanging, FaRunning } from "react-icons/fa";
 
 const WorkoutPlan = () => {
   const [formData, setFormData] = useState({
     goal: "weight_loss",
     fitness_level: "intermediate",
     preferences: {
-      exercise_types: [],
+      exercise_types: "cardio",
       equipment_available: [],
     },
     health_conditions: [],
@@ -25,7 +26,10 @@ const WorkoutPlan = () => {
 
     if (name.startsWith("preferences.")) {
       const key = name.split(".")[1];
-      const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+      const selectedOptions = Array.from(
+        e.target.selectedOptions,
+        (option) => option.value
+      );
       setFormData({
         ...formData,
         preferences: {
@@ -60,9 +64,12 @@ const WorkoutPlan = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const response = await axios.post("http://localhost:3000/api/user/workOutPlan", formData); // API call
+      const response = await axios.post(
+        "http://localhost:3000/api/user/workOutPlan",
+        formData
+      ); // API call
       setWorkoutPlan(response.data);
     } catch (error) {
       console.error(error);
@@ -71,18 +78,23 @@ const WorkoutPlan = () => {
   };
 
   return (
-    <div className="p-6 max-w-lg mx-auto bg-white shadow-md rounded-lg">
-      <h1 className="text-2xl font-bold mb-4">Generate Your Workout Plan</h1>
-      
+    <div className="max-w-3xl mx-auto p-6 bg-white shadow-lg rounded-lg mt-10">
+      <h1 className="text-3xl font-bold text-center mb-6 text-indigo-600">
+        Generate Your Workout Plan
+      </h1>
+
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Goal */}
         <div>
-          <label className="block font-medium">Goal</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            <FaWeightHanging className="inline-block mr-2" />
+            Goal
+          </label>
           <select
             name="goal"
             value={formData.goal}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           >
             <option value="weight_loss">Weight Loss</option>
@@ -93,12 +105,15 @@ const WorkoutPlan = () => {
 
         {/* Fitness Level */}
         <div>
-          <label className="block font-medium">Fitness Level</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            <FaUserPlus className="inline-block mr-2" />
+            Fitness Level
+          </label>
           <select
             name="fitness_level"
             value={formData.fitness_level}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           >
             <option value="beginner">Beginner</option>
@@ -109,11 +124,15 @@ const WorkoutPlan = () => {
 
         {/* Exercise Types */}
         <div>
-          <label className="block font-medium">Exercise Types</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            <FaRunning className="inline-block mr-2" />
+            Exercise Types
+          </label>
           <select
             name="preferences.exercise_types"
+            value={formData.preferences.exercise_types}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             multiple
           >
             <option value="cardio">Cardio</option>
@@ -124,11 +143,14 @@ const WorkoutPlan = () => {
 
         {/* Equipment Available */}
         <div>
-          <label className="block font-medium">Equipment Available</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            <FaDumbbell className="inline-block mr-2" />
+            Equipment Available
+          </label>
           <select
             name="preferences.equipment_available"
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             multiple
           >
             <option value="dumbbells">Dumbbells</option>
@@ -143,11 +165,13 @@ const WorkoutPlan = () => {
 
         {/* Health Conditions */}
         <div>
-          <label className="block font-medium">Health Conditions</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            Health Conditions
+          </label>
           <select
             name="health_conditions"
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             multiple
           >
             <option value="knee_pain">Knee Pain</option>
@@ -162,73 +186,83 @@ const WorkoutPlan = () => {
 
         {/* Schedule Days per Week */}
         <div>
-          <label className="block font-medium">Days Per Week</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            <FaCalendarAlt className="inline-block mr-2" />
+            Days Per Week
+          </label>
           <input
             type="number"
             name="schedule.days_per_week"
             value={formData.schedule.days_per_week}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
         </div>
 
         {/* Session Duration */}
         <div>
-          <label className="block font-medium">Session Duration (minutes)</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            Session Duration (minutes)
+          </label>
           <input
             type="number"
             name="schedule.session_duration"
             value={formData.schedule.session_duration}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
         </div>
 
         {/* Plan Duration (Weeks) */}
         <div>
-          <label className="block font-medium">Plan Duration (weeks)</label>
+          <label className="block text-gray-700 font-bold mb-2">
+            Plan Duration (weeks)
+          </label>
           <input
             type="number"
             name="plan_duration_weeks"
             value={formData.plan_duration_weeks}
             onChange={handleInputChange}
-            className="w-full p-2 border rounded-lg"
+            className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
           />
         </div>
 
-        <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded-lg">
+        <button
+          type="submit"
+          className="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 transition"
+        >
           Generate Plan
         </button>
       </form>
 
       {/* Display Workout Plan Output */}
       {workoutPlan && (
-        <div className="mt-6">
-          <h2 className="text-xl font-bold mb-2">Your Workout Plan</h2>
-          <p>Goal: {workoutPlan.goal}</p>
-          <p>Fitness Level: {workoutPlan.fitness_level}</p>
-          <p>Total Weeks: {workoutPlan.total_weeks}</p>
-          <p>Schedule: {workoutPlan.schedule.days_per_week} days per week, {workoutPlan.schedule.session_duration} minutes per session</p>
-          
-          <h3 className="font-bold">Exercises:</h3>
-          {workoutPlan.exercises.map((dayPlan) => (
-            <div key={dayPlan.day} className="mb-4">
-              <h4 className="font-semibold">{dayPlan.day}</h4>
-              {dayPlan.exercises.map((exercise, index) => (
-                <p key={index}>
-                  {exercise.name} - {exercise.duration}, {exercise.repetitions} reps, {exercise.sets} sets ({exercise.equipment})
-                </p>
-              ))}
-            </div>
-          ))}
+        <div className="mt-8 p-6 bg-white shadow-md rounded-lg">
+          <h2 className="text-2xl font-bold mb-4">Your Workout Plan</h2>
+          <p className="mb-2">
+            <strong>Goal:</strong> {workoutPlan.goal}
+          </p>
+          <p className="mb-2">
+            <strong>Fitness Level:</strong> {workoutPlan.fitness_level}
+          </p>
+          <p className="mb-2">
+            <strong>Total Weeks:</strong> {workoutPlan.total_weeks}
+          </p>
+          <p className="mb-2">
+            <strong>Schedule:</strong> {workoutPlan.schedule.days_per_week} days
+            per week, {workoutPlan.schedule.session_duration} minutes per
+            session
+          </p>
 
-          <h3 className="font-bold">SEO Info:</h3>
-          <p>Title: {workoutPlan.seo_title}</p>
-          <p>Content: {workoutPlan.seo_content}</p>
-          <p>Keywords: {workoutPlan.seo_keywords}</p>
+          <h3 className="font-bold mb-2">Exercises:</h3>
+          <ul className="list-disc list-inside">
+            {workoutPlan.exercises.map((exercise, index) => (
+              <li key={index}>{exercise}</li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
