@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { IoFastFoodSharp, IoTime } from "react-icons/io5";
+import { GiFruitBowl } from "react-icons/gi";
+import { MdCancel } from "react-icons/md";
 
 const DietPlan = () => {
   const [formData, setFormData] = useState({
@@ -68,7 +71,7 @@ const DietPlan = () => {
         <div className="flex flex-wrap -mx-2">
           <div className="w-full px-2 mb-4">
             <label className="block text-gray-700 font-bold mb-2">
-              Time Frame <span className="text-red-500">*</span>
+            <IoTime className="inline-block mr-2"/> Time Frame <span className="text-red-500">*</span>
             </label>
             <select
               name="timeFrame"
@@ -90,7 +93,7 @@ const DietPlan = () => {
         <div className="flex flex-wrap -mx-2">
           <div className="w-full px-2 mb-4">
             <label className="block text-gray-700 font-bold mb-2">
-              Target Calories <span className="text-red-500">*</span>
+            <IoFastFoodSharp className="inline-block mr-2" /> Target Calories <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
@@ -110,7 +113,8 @@ const DietPlan = () => {
         <div className="flex flex-wrap -mx-2">
           <div className="w-full px-2 mb-4">
             <label className="block text-gray-700 font-bold mb-2">
-              Diet <span className="text-red-500">*</span>
+            <GiFruitBowl  className="inline-block mr-2"/>
+             Diet <span className="text-red-500">*</span>
             </label>
             <select
               name="diet"
@@ -132,7 +136,7 @@ const DietPlan = () => {
         <div className="flex flex-wrap -mx-2">
           <div className="w-full px-2 mb-4">
             <label className="block text-gray-700 font-bold mb-2">
-              Exclude (optional)
+            <MdCancel className="inline-block mr-2" /> Exclude (optional)
             </label>
             <input
               type="text"

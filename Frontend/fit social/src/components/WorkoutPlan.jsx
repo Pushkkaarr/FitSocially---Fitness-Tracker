@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { FaDumbbell, FaCalendarAlt, FaUserPlus, FaWeightHanging, FaRunning } from "react-icons/fa";
+import { FaCalendarWeek } from "react-icons/fa";
+import { IoMdTimer } from "react-icons/io";
+import { MdHealthAndSafety } from "react-icons/md";
 
 const WorkoutPlan = () => {
   const [formData, setFormData] = useState({
@@ -72,7 +75,7 @@ const WorkoutPlan = () => {
       ); // API call
       setWorkoutPlan(response.data);
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
       alert("Failed to generate workout plan. Please try again.");
     }
   };
@@ -88,7 +91,7 @@ const WorkoutPlan = () => {
         <div>
           <label className="block text-gray-700 font-bold mb-2">
             <FaWeightHanging className="inline-block mr-2" />
-            Goal
+            Goal <span className="text-red-500">*</span>
           </label>
           <select
             name="goal"
@@ -107,7 +110,7 @@ const WorkoutPlan = () => {
         <div>
           <label className="block text-gray-700 font-bold mb-2">
             <FaUserPlus className="inline-block mr-2" />
-            Fitness Level
+            Fitness Level <span className="text-red-500">*</span>
           </label>
           <select
             name="fitness_level"
@@ -126,14 +129,14 @@ const WorkoutPlan = () => {
         <div>
           <label className="block text-gray-700 font-bold mb-2">
             <FaRunning className="inline-block mr-2" />
-            Exercise Types
+            Exercise Types <span className="text-red-500">*</span>
           </label>
           <select
             name="preferences.exercise_types"
             value={formData.preferences.exercise_types}
             onChange={handleInputChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            multiple
+            required
           >
             <option value="cardio">Cardio</option>
             <option value="strength">Strength</option>
@@ -151,7 +154,7 @@ const WorkoutPlan = () => {
             name="preferences.equipment_available"
             onChange={handleInputChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            multiple
+            
           >
             <option value="dumbbells">Dumbbells</option>
             <option value="yoga_mat">Yoga Mat</option>
@@ -166,13 +169,13 @@ const WorkoutPlan = () => {
         {/* Health Conditions */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">
-            Health Conditions
+          <MdHealthAndSafety className="inline-block mr-2"/> Health Conditions
           </label>
           <select
             name="health_conditions"
             onChange={handleInputChange}
             className="w-full p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            multiple
+            
           >
             <option value="knee_pain">Knee Pain</option>
             <option value="back_pain">Back Pain</option>
@@ -188,7 +191,7 @@ const WorkoutPlan = () => {
         <div>
           <label className="block text-gray-700 font-bold mb-2">
             <FaCalendarAlt className="inline-block mr-2" />
-            Days Per Week
+            Days Per Week <span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -203,7 +206,7 @@ const WorkoutPlan = () => {
         {/* Session Duration */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">
-            Session Duration (minutes)
+          <IoMdTimer className="inline-block mr-2"/> Session Duration (minutes)<span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -218,7 +221,7 @@ const WorkoutPlan = () => {
         {/* Plan Duration (Weeks) */}
         <div>
           <label className="block text-gray-700 font-bold mb-2">
-            Plan Duration (weeks)
+          <FaCalendarWeek className="inline-block mr-2"/> Plan Duration (weeks)<span className="text-red-500">*</span>
           </label>
           <input
             type="number"
@@ -240,31 +243,31 @@ const WorkoutPlan = () => {
 
       {/* Display Workout Plan Output */}
       {workoutPlan && (
-        <div className="mt-8 p-6 bg-white shadow-md rounded-lg">
-          <h2 className="text-2xl font-bold mb-4">Your Workout Plan</h2>
-          <p className="mb-2">
-            <strong>Goal:</strong> {workoutPlan.goal}
-          </p>
-          <p className="mb-2">
-            <strong>Fitness Level:</strong> {workoutPlan.fitness_level}
-          </p>
-          <p className="mb-2">
-            <strong>Total Weeks:</strong> {workoutPlan.total_weeks}
-          </p>
-          <p className="mb-2">
-            <strong>Schedule:</strong> {workoutPlan.schedule.days_per_week} days
-            per week, {workoutPlan.schedule.session_duration} minutes per
-            session
-          </p>
+  <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
+    <h2 className="text-2xl font-bold mb-4 text-indigo-600">Your Workout Plan</h2>
+    <p className="mb-2">
+      <strong>Goal:</strong> {workoutPlan.plan.goal}
+    </p>
+    <p className="mb-2">
+      <strong>Fitness Level:</strong> {workoutPlan.plan.fitness_level}
+    </p>
+    <p className="mb-2">
+      <strong>Total Weeks:</strong> {workoutPlan.plan.plan_duration_weeks}
+    </p>
+    <p className="mb-2">
+      <strong>Schedule:</strong> {workoutPlan.plan.schedule.days_per_week} days per week, {workoutPlan.plan.schedule.session_duration} minutes per session
+    </p>
 
-          <h3 className="font-bold mb-2">Exercises:</h3>
-          <ul className="list-disc list-inside">
-            {workoutPlan.exercises.map((exercise, index) => (
-              <li key={index}>{exercise}</li>
-            ))}
-          </ul>
-        </div>
-      )}
+    <h3 className="font-bold mb-2">Exercises:</h3>
+    <ul className="list-disc list-inside">
+      {workoutPlan.plan.exercises.map((exercise, index) => (
+        <li key={index}>
+          {exercise.name} - {exercise.sets} sets of {exercise.reps} reps
+        </li>
+      ))}
+    </ul>
+  </div>
+)}
     </div>
   );
 };

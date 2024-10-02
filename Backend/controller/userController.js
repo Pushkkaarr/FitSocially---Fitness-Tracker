@@ -311,8 +311,27 @@ export const dietPlan=async(req,res)=>{
 
 
 // Endpoint to get a workout plan based on user inputs
-export const workOutPlan= async (req, res) => {
+
+export const workOutPlan = async (req, res) => {
     const {
+      goal,
+      fitness_level,
+      preferences,
+      health_conditions,
+      schedule,
+      lang,
+      plan_duration_weeks
+    } = req.body;
+  
+    const options = {
+      method: 'POST',
+      url: 'https://ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com/generateWorkoutPlan',
+      headers: {
+        'content-type': 'application/json',
+        'X-RapidAPI-Key': process.env.WORKOUT_API_KEY,
+        'X-RapidAPI-Host': 'ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com'
+      },
+      data: {
         goal,
         fitness_level,
         preferences,
@@ -320,40 +339,50 @@ export const workOutPlan= async (req, res) => {
         schedule,
         lang,
         plan_duration_weeks
-      } = req.body;
-    
-      const options = {
-        method: 'POST',
-        url: 'https://ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com/generateWorkoutPlan',
-        headers: {
-          'content-type': 'application/json',
-          'X-RapidAPI-Key': process.env.WORKOUT_API_KEY,
-          'X-RapidAPI-Host': 'ai-workout-planner-exercise-fitness-nutrition-guide.p.rapidapi.com'
-        },
-        data: {
-          goal,
-          fitness_level,
-          preferences,
-          health_conditions,
-          schedule,
-          lang,
-          plan_duration_weeks
-        }
-      };
-    
-      try {
-        const response = await axios.request(options);
-        const workoutPlan = response.data.result;
-    
-        // Check if the result is ready
-        if (workoutPlan) {
-          res.json(workoutPlan);
-        } else {
-          res.status(202).json({ message: 'Workout plan is being generated, please try again shortly.' });
-        }
-      } catch (error) {
-        console.error('Error generating workout plan:', error);
-        res.status(500).json({ error: 'Failed to generate workout plan', details: error.response ? error.response.data : error.message });
-    }
+      }
     };
-    
+  
+    try {
+      const response = await axios.request(options);
+      const workoutPlan = response.data.result;
+  
+      if (workoutPlan) {
+        // Return the generated workout plan if available
+        return res.json(workoutPlan);
+      } else {
+        // Return a message if the plan is still being generated
+        return res.status(202).json({ message: 'Workout plan is being generated, please try again shortly.' });
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 429) {
+        // Handle API quota exceeded (status 429) and return default workout plan
+        const defaultWorkoutPlan = {
+          message: 'You have exceeded the monthly quota. Here is a default workout plan.',
+          plan: {
+            goal: goal || 'general fitness',
+            fitness_level: fitness_level || 'beginner',
+            preferences: preferences || ['bodyweight'],
+            health_conditions: health_conditions || [],
+            schedule: schedule || { days_per_week: 3 },
+            plan_duration_weeks: plan_duration_weeks || 4,
+            exercises: [
+              { name: 'Push-ups', sets: 3, reps: 10 },
+              { name: 'Squats', sets: 3, reps: 15 },
+              { name: 'Plank', sets: 3, duration: '30s' },
+              { name: 'Jumping Jacks', sets: 3, duration: '1min' }
+            ]
+          }
+        };
+  
+        return res.json(defaultWorkoutPlan);
+      } else {
+        // Handle other errors and return an error response
+        console.error('Error generating workout plan:', error);
+        return res.status(500).json({
+          error: 'Failed to generate workout plan',
+          details: error.response ? error.response.data : error.message
+        });
+      }
+    }
+  };
+  
