@@ -18,16 +18,6 @@ const io = new Server(server,{
     }
 })
 
-/***
- * socket running at http://localhost:5173/
- */
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
-//online user
-
-
 const onlineUser = new Set()
 
 io.on('connection',async(socket)=>{
@@ -167,8 +157,7 @@ io.on('connection',async(socket)=>{
     })
 })
 
-module.exports = {
-    app,
-    server
-}
+// Exporting app and server using ES module syntax
+// Exporting app and server using destructuring export
+export { app, server };
 

@@ -47,10 +47,6 @@ const conversationSchema = new mongoose.Schema({
     timestamps : true
 })
 
-const MessageModel = mongoose.model('Message',messageSchema)
-const ConversationModel = mongoose.model('Conversation',conversationSchema)
-
-module.exports = {
-    MessageModel,
-    ConversationModel
-}
+// Export the models using ES module syntax
+export const MessageModel = mongoose.model('Message', messageSchema);
+export const ConversationModel = mongoose.model('Conversation', conversationSchema);

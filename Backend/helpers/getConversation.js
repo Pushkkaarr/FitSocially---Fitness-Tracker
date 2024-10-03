@@ -1,4 +1,4 @@
-import { ConversationModel } from "../models/ConversationModel.js";
+import { ConversationModel } from '../models/ConversationModel.js';
 
 const getConversation = async(currentUserId)=>{
     if(currentUserId){
