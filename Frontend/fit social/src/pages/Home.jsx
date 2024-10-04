@@ -49,8 +49,8 @@ const Home = () => {
     socketConnection.on('onlineUser',(data)=>{
       console.log(data);
       console.log("Socket connected:", socketConnection.id);
-      console.error("Connection error:", err.message);
-      console.error("Connection error details:", err);
+      //console.error("Connection error:", err.message);
+      //console.error("Connection error details:", err);
       dispatch(setOnlineUser(data))
     })
 
@@ -62,7 +62,7 @@ const Home = () => {
   },[])
 
 
-  const basePath = location.pathname === '/'
+  const basePath = location.pathname === '/chat/'
   return (
     <div className='grid lg:grid-cols-[300px,1fr] h-screen max-h-screen'>
         <section className={`bg-white ${!basePath && "hidden"} lg:block`}>
