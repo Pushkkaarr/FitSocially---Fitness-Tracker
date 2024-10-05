@@ -63,7 +63,7 @@ const CheckPasswordPage = () => {
             setData({
               password : "",
             })
-            navigate('/')
+            navigate('/chat/')
         }
     } catch (error) {
         toast.error(error?.response?.data?.message)
