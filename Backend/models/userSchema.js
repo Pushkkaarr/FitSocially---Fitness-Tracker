@@ -41,7 +41,15 @@ const userSchema=mongoose.Schema({
     profile_pic :{
         type:String, //url to the image
         default:""
-    }
+    },
+    followers: {
+        type: Array,
+        default: [],
+      },
+      following: {
+        type: Array,
+        default: [],
+      },
 },
 {timestamps:true
 });

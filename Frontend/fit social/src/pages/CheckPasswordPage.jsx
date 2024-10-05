@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 import { PiUserCircle } from "react-icons/pi";
 import Avatar from '../components/Avatar';
 import { useDispatch } from 'react-redux';
-import { setToken, setUser } from '../redux/userSlice';
+import { getUser, setToken, setUser } from '../redux/userSlice';
 
 const CheckPasswordPage = () => {
   const [data,setData] = useState({
@@ -56,6 +56,7 @@ const CheckPasswordPage = () => {
 
         if(response.data.success){
             dispatch(setToken(response?.data?.token))
+            dispatch(setUser(response?.data?.user))
             console.log('Response Data:', response.data);
 
             localStorage.setItem('token',response?.data?.token)
@@ -63,7 +64,7 @@ const CheckPasswordPage = () => {
             setData({
               password : "",
             })
-            navigate('/chat/')
+            navigate('/social')
         }
     } catch (error) {
         toast.error(error?.response?.data?.message)

@@ -6,6 +6,7 @@ import cookiesParser from 'cookie-parser';
 import cors from 'cors'
 import connectDB from './config/database.js'
 import { app, server } from './socket/index.js';
+import tweetRoute from './routes/tweetRoute.js'
 
 dotenv.config({ path: ".env" });
 
@@ -14,6 +15,8 @@ const port = process.env.PORT;
 
 app.use(express.json());
 app.use(cookiesParser())
+app.use('/uploads', express.static('uploads'));
+
 // app.use(cors());
 
 app.use(cors({
@@ -28,6 +31,8 @@ app.get('/', (req, res) => {
 //api endpoints
 app.use("/api/user", userRoute);
 app.use("/api/social", socialRoute);
+app.use("/api/tweet", tweetRoute);
+
 
 // app.listen(port, () => {
 //   console.log(`Server started on port ${port}`);

@@ -2,7 +2,8 @@ import  express  from "express";
 import bodyParser from 'body-parser';
 import multer from 'multer';
 import path from 'path';
-import { searchUser,updateUserDeatils,logout,userDetails,checkPassword,checkEmail,registerUser,caloriesCalculator, dietPlan, profile,workOutPlan } from "../controller/userController.js";
+import { searchUser,updateUserDeatils,logout,userDetails,checkPassword,checkEmail,registerUser,caloriesCalculator, dietPlan, profile,workOutPlan, follow, unfollow, getOtherUsers } from "../controller/userController.js";
+import isAuthenticated from "../config/auth.js";
 const router=express.Router();
 
 router.route("/loginUser").get(userDetails) //Login User Details
@@ -16,5 +17,10 @@ router.route("/profile").get(profile)
 router.route("/calculate-calories").post(caloriesCalculator)
 router.route("/dietPlan").get(dietPlan)
 router.route("/workOutPlan").post(workOutPlan)
+router.route("/follow/:id").post(follow);
+router.route("/unfollow/:id").post(unfollow);
+router.route("/otheruser/:id").get(isAuthenticated, getOtherUsers);
+
+
 
 export default router

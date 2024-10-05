@@ -1,6 +1,6 @@
-import Tweet  from '../modules/tweetSchema.js';
+import Tweet  from '../models/tweetSchema.js';
 
-import  User  from "../modules/userSchema.js";
+import  User  from "../models/userSchema.js";
 
 
 import multer from 'multer';

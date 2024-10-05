@@ -103,6 +103,7 @@ export const checkPassword = async(req,res)=>{
 
         return res.cookie('token',token,cookieOptions).status(200).json({
             message : "Login successfully",
+            user,
             token : token,
             success :true
         })

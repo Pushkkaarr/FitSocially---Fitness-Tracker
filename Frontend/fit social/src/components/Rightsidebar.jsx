@@ -24,7 +24,7 @@ const Rightsidebar = ({otheruser}) => {
               <div className="flex">
                 <div>
                   <Avatar
-                    src="https://pbs.twimg.com/profile_images/1703261403237502976/W0SFbJVS_400x400.jpg"
+                    src={user?.profile_pic}
                     size="40"
                     round={true}
                   />
