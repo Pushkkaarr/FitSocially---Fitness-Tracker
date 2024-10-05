@@ -15,6 +15,7 @@ import { Provider } from 'react-redux'
 import { store } from './redux/store';
 import Social from './pages/Social';
 
+import LandingPage from './pages/LandingPage';
 const DietPage = () => (
   <>
     <DietPlan />
@@ -26,6 +27,7 @@ const DietPage = () => (
 const AppRoutes = () => {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} /> 
       <Route path="/chat/" element={<Home />}> {/* This the homepage of chat app */}
           <Route path=":userId" element={<MessagePage />} /> 
         </Route>
