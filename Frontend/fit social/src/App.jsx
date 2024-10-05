@@ -13,6 +13,7 @@ import Home from './pages/Home'
 import MessagePage from './components/MessagePage';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
+import Social from './pages/Social';
 
 const DietPage = () => (
   <>
@@ -33,6 +34,7 @@ const AppRoutes = () => {
       <Route path="/email" element={<Login />} />
       <Route path="/password" element={<Password />} />
       <Route path="/forgot-password" element={<Forgotpassword/>} />
+      <Route path="/social" element={<Social/>}/>
     </Routes>
   );
 };
