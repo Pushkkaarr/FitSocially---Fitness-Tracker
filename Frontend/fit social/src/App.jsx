@@ -13,7 +13,7 @@ import Home from './pages/Home'
 import MessagePage from './components/MessagePage';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
-
+import Social from './pages/Social';
 
 import LandingPage from './pages/LandingPage';
 const DietPage = () => (
