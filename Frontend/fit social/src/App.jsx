@@ -14,6 +14,8 @@ import MessagePage from './components/MessagePage';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
 
+
+import LandingPage from './pages/LandingPage';
 const DietPage = () => (
   <>
     <DietPlan />
