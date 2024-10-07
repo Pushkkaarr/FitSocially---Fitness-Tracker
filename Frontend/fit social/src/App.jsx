@@ -16,6 +16,8 @@ import { store } from './redux/store';
 import Social from './pages/Social';
 
 import LandingPage from './pages/LandingPage';
+import Dashboard from './pages/Dashboard';
+import NavigationBar from './components/NavigationBar';
 const DietPage = () => (
   <>
     <DietPlan />
@@ -24,19 +26,32 @@ const DietPage = () => (
   </>
 );
 
+const MainLayout = ({ children }) => (
+  <div className="flex">
+    <div className="w-1/4 mx-5">
+      <NavigationBar /> {/* Left Sidebar */}
+    </div>
+    <div className="w-[100%] mx-5">
+      {children} {/* Right Main Content */}
+    </div>
+  </div>
+);
+
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} /> 
-      <Route path="/chat/" element={<Home />}> {/* This the homepage of chat app */}
-          <Route path=":userId" element={<MessagePage />} /> 
+      <Route path="/chat/" element={<MainLayout><Home /></MainLayout>}> {/* This the homepage of chat app */}
+          <Route path=":userId" element={<MainLayout><MessagePage /></MainLayout>} /> 
         </Route>
-      <Route path="/diet" element={<DietPage />} /> 
+      <Route path="/diet" element={<MainLayout><DietPage /></MainLayout>} /> 
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/email" element={<Login />} />
       <Route path="/password" element={<Password />} />
       <Route path="/forgot-password" element={<Forgotpassword/>} />
-      <Route path="/social" element={<Social/>}/>
+      <Route path="/social" element={<MainLayout><Social/></MainLayout>}/>
+      <Route path='/dashboard' element={<MainLayout><Dashboard/></MainLayout>}/>
+      <Route path='/Navigation' element={<NavigationBar/>}/>
     </Routes>
   );
 };
