@@ -18,6 +18,7 @@ import Social from './pages/Social';
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NavigationBar from './components/NavigationBar';
+
 const DietPage = () => (
   <div className="flex flex-col items-center w-full h-screen overflow-auto p-4">
     <div className="w-full max-w-3xl mb-4">
@@ -37,20 +38,12 @@ const DietPage = () => (
     </div>
   </div>
 );
-
-
-
-
-
-
-
-
 const MainLayout = ({ children }) => (
   <div className="flex">
-    <div className="w-1/4 mx-5">
+    <div className="w-1/4 ">
       <NavigationBar /> {/* Left Sidebar */}
     </div>
-    <div className="w-[100%] mx-5">
+    <div className="flex-1 mx-5">
       {children} {/* Right Main Content */}
     </div>
   </div>
@@ -61,7 +54,7 @@ const AppRoutes = () => {
     <Routes>
       <Route path="/" element={<LandingPage />} /> 
       <Route path="/chat/" element={<MainLayout><Home /></MainLayout>}> {/* This the homepage of chat app */}
-          <Route path=":userId" element={<MainLayout><MessagePage /></MainLayout>} /> 
+          <Route path=":userId" element={<MessagePage />} /> 
         </Route>
       <Route path="/diet" element={<MainLayout><DietPage /></MainLayout>} /> 
       <Route path="/register" element={<RegisterPage />} />
