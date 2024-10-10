@@ -88,152 +88,152 @@ const WorkoutPlan = () => {
           Generate Your Workout Plan
         </h1>
   
-        <form onSubmit={handleSubmit} className="  bg-white bg-opacity-70  space-y-4 p-6 rounded-lg shadow-lg border border-indigo-400">
-          {/* Goal */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaWeightHanging className="inline-block mr-2" />
-              Goal <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="goal"
-              value={formData.goal}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            >
-              <option value="weight_loss">Weight Loss</option>
-              <option value="muscle_gain">Muscle Gain</option>
-              <option value="maintain">Maintain Weight</option>
-            </select>
+        <form onSubmit={handleSubmit} className="bg-white bg-opacity-70 space-y-4 p-6 rounded-lg shadow-lg border border-indigo-400">
+          {/* Row 1 */}
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaWeightHanging className="inline-block mr-2" />
+                Goal <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="goal"
+                value={formData.goal}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              >
+                <option value="weight_loss">Weight Loss</option>
+                <option value="muscle_gain">Muscle Gain</option>
+                <option value="maintain">Maintain Weight</option>
+              </select>
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaUserPlus className="inline-block mr-2" />
+                Fitness Level <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="fitness_level"
+                value={formData.fitness_level}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              >
+                <option value="beginner">Beginner</option>
+                <option value="intermediate">Intermediate</option>
+                <option value="advanced">Advanced</option>
+              </select>
+            </div>
           </div>
   
-          {/* Fitness Level */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaUserPlus className="inline-block mr-2" />
-              Fitness Level <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="fitness_level"
-              value={formData.fitness_level}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            >
-              <option value="beginner">Beginner</option>
-              <option value="intermediate">Intermediate</option>
-              <option value="advanced">Advanced</option>
-            </select>
+          {/* Row 2 */}
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaRunning className="inline-block mr-2" />
+                Exercise Types <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="preferences.exercise_types"
+                value={formData.preferences.exercise_types}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              >
+                <option value="cardio">Cardio</option>
+                <option value="strength">Strength</option>
+                <option value="flexibility">Flexibility</option>
+              </select>
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaDumbbell className="inline-block mr-2" />
+                Equipment Available
+              </label>
+              <select
+                name="preferences.equipment_available"
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="dumbbells">Dumbbells</option>
+                <option value="yoga_mat">Yoga Mat</option>
+                <option value="exercise_bike">Exercise Bike</option>
+                <option value="treadmill">Treadmill</option>
+                <option value="kettlebells">Kettlebells</option>
+                <option value="resistance_bands">Resistance Bands</option>
+                <option value="none">None</option>
+              </select>
+            </div>
           </div>
   
-          {/* Exercise Types */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaRunning className="inline-block mr-2" />
-              Exercise Types <span className="text-red-500">*</span>
-            </label>
-            <select
-              name="preferences.exercise_types"
-              value={formData.preferences.exercise_types}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            >
-              <option value="cardio">Cardio</option>
-              <option value="strength">Strength</option>
-              <option value="flexibility">Flexibility</option>
-            </select>
+          {/* Row 3 */}
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <MdHealthAndSafety className="inline-block mr-2" />
+                Health Conditions
+              </label>
+              <select
+                name="health_conditions"
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              >
+                <option value="knee_pain">Knee Pain</option>
+                <option value="back_pain">Back Pain</option>
+                <option value="shoulder_pain">Shoulder Pain</option>
+                <option value="hip_pain">Hip Pain</option>
+                <option value="diabetes">Diabetes</option>
+                <option value="heart_condition">Heart Condition</option>
+                <option value="none">None</option>
+              </select>
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaCalendarAlt className="inline-block mr-2" />
+                Days Per Week <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                name="schedule.days_per_week"
+                value={formData.schedule.days_per_week}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
+            </div>
           </div>
   
-          {/* Equipment Available */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaDumbbell className="inline-block mr-2" />
-              Equipment Available
-            </label>
-            <select
-              name="preferences.equipment_available"
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="dumbbells">Dumbbells</option>
-              <option value="yoga_mat">Yoga Mat</option>
-              <option value="exercise_bike">Exercise Bike</option>
-              <option value="treadmill">Treadmill</option>
-              <option value="kettlebells">Kettlebells</option>
-              <option value="resistance_bands">Resistance Bands</option>
-              <option value="none">None</option>
-            </select>
-          </div>
-  
-          {/* Health Conditions */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <MdHealthAndSafety className="inline-block mr-2" />
-              Health Conditions
-            </label>
-            <select
-              name="health_conditions"
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-              <option value="knee_pain">Knee Pain</option>
-              <option value="back_pain">Back Pain</option>
-              <option value="shoulder_pain">Shoulder Pain</option>
-              <option value="hip_pain">Hip Pain</option>
-              <option value="diabetes">Diabetes</option>
-              <option value="heart_condition">Heart Condition</option>
-              <option value="none">None</option>
-            </select>
-          </div>
-  
-          {/* Schedule Days per Week */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaCalendarAlt className="inline-block mr-2" />
-              Days Per Week <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="schedule.days_per_week"
-              value={formData.schedule.days_per_week}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-  
-          {/* Session Duration */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <IoMdTimer className="inline-block mr-2" />
-              Session Duration (minutes) <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="schedule.session_duration"
-              value={formData.schedule.session_duration}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
-          </div>
-  
-          {/* Plan Duration (Weeks) */}
-          <div>
-            <label className="block text-gray-700 font-bold mb-2">
-              <FaCalendarWeek className="inline-block mr-2" />
-              Plan Duration (weeks) <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="plan_duration_weeks"
-              value={formData.plan_duration_weeks}
-              onChange={handleInputChange}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              required
-            />
+          {/* Row 4 */}
+          <div className="flex space-x-4">
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <IoMdTimer className="inline-block mr-2" />
+                Session Duration (minutes) <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                name="schedule.session_duration"
+                value={formData.schedule.session_duration}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
+            </div>
+            <div className="flex-1">
+              <label className="block text-gray-700 font-bold mb-2">
+                <FaCalendarWeek className="inline-block mr-2" />
+                Plan Duration (weeks) <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="number"
+                name="plan_duration_weeks"
+                value={formData.plan_duration_weeks}
+                onChange={handleInputChange}
+                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                required
+              />
+            </div>
           </div>
   
           <button
@@ -274,6 +274,7 @@ const WorkoutPlan = () => {
       </div>
     </div>
   );
+  
   
 };
 

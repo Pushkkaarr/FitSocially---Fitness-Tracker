@@ -61,161 +61,155 @@ const DietPlan = () => {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="max-w-full mx-auto p-6 bg-gradient-to-r from-green-400 to-blue-500 rounded-lg shadow-lg">
+    <div className="flex-space-y-6 items-center justify-center">
+      <div className="max-w-full mx-auto p-6 bg-gradient-to-r from-sky-400 to-blue-600 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-6 text-white font-cambria">
           Generate Your Diet Plan
         </h1>
-  
-        <form
-          onSubmit={handleSubmit}
-          id="form1"
-          className="space-y-4 bg-white bg-opacity-70 rounded-lg p-6 shadow-lg"
-          style={{ fontFamily: 'Cambria, serif' }}
-        >
-          {/* Time Frame */}
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full px-2 mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                <IoTime className="inline-block mr-2" /> Time Frame{' '}
-                <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="timeFrame"
-                value={formData.timeFrame}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.timeFrame ? 'border-red-500' : 'focus:ring-indigo-500'
-                }`}
-                required
+
+        <div className="flex-space-y-6   flex-col md:flex-row items-center justify-center h-full">
+  <div className="mb-4 md:mb-0 flex justify-center">
+    <form
+      onSubmit={handleSubmit}
+      id="form1"
+      className="space-y-4 justify-center bg-white bg-opacity-70 rounded-lg p-6 shadow-lg"
+      style={{ fontFamily: 'Cambria, serif' }}
+    >
+              {/* Time Frame */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                  <IoTime className="inline-block mr-2" /> Time Frame{' '}
+                  <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="timeFrame"
+                  value={formData.timeFrame}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                    errors.timeFrame ? 'border-red-500' : 'focus:ring-indigo-500'
+                  }`}
+                  required
+                >
+                  <option value="day">Day</option>
+                  <option value="week">Week</option>
+                </select>
+                {errors.timeFrame && <p className="text-red-500">{errors.timeFrame}</p>}
+              </div>
+
+              {/* Target Calories */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                  <IoFastFoodSharp className="inline-block mr-2" /> Target Calories{' '}
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="number"
+                  name="targetCalories"
+                  value={formData.targetCalories}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                    errors.targetCalories ? 'border-red-500' : 'focus:ring-indigo-500'
+                  }`}
+                  required
+                />
+                {errors.targetCalories && <p className="text-red-500">{errors.targetCalories}</p>}
+              </div>
+
+              {/* Diet Dropdown */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                  <GiFruitBowl className="inline-block mr-2" /> Diet{' '}
+                  <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="diet"
+                  value={formData.diet}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                    errors.diet ? 'border-red-500' : 'focus:ring-indigo-500'
+                  }`}
+                  required
+                >
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="non-vegetarian">Non-Vegetarian</option>
+                </select>
+                {errors.diet && <p className="text-red-500">{errors.diet}</p>}
+              </div>
+
+              {/* Exclude (Optional) */}
+              <div className="mb-4">
+                <label className="block text-gray-700 font-bold mb-2">
+                  <MdCancel className="inline-block mr-2" /> Exclude (optional)
+                </label>
+                <input
+                  type="text"
+                  name="exclude"
+                  value={formData.exclude}
+                  onChange={handleInputChange}
+                  className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
+                    errors.exclude ? 'border-red-500' : 'focus:ring-indigo-500'
+                  }`}
+                  placeholder="e.g., shellfish, olives"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300"
+                disabled={loading}
               >
-                <option value="day">Day</option>
-                <option value="week">Week</option>
-              </select>
-              {errors.timeFrame && <p className="text-red-500">{errors.timeFrame}</p>}
-            </div>
+                {loading ? 'Generating...' : 'Generate Plan'}
+              </button>
+            </form>
           </div>
-  
-          {/* Target Calories */}
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full px-2 mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                <IoFastFoodSharp className="inline-block mr-2" /> Target Calories{' '}
-                <span className="text-red-500">*</span>
-              </label>
-              <input
-                type="number"
-                name="targetCalories"
-                value={formData.targetCalories}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.targetCalories ? 'border-red-500' : 'focus:ring-indigo-500'
-                }`}
-                required
-              />
-              {errors.targetCalories && <p className="text-red-500">{errors.targetCalories}</p>}
-            </div>
+
+          {/* Display Diet Plan Output */}
+          <div className="w-full md:w-1/2 pl-4">
+            {error && <p className="text-red-500 text-center mt-4">{error}</p>}
+            {dietPlan && (
+              <div className="mt-8 p-6 bg-white bg-opacity-60 backdrop-blur-lg rounded-lg shadow-lg font-cambria">
+                <h2 className="text-2xl font-bold mb-4 text-indigo-600">
+                  {dietPlan.message}
+                </h2>
+                <div>
+                  <h3 className="font-bold">Meals:</h3>
+                  {dietPlan?.mealPlan?.meals && dietPlan.mealPlan.meals.length > 0 ? (
+                    <ul className="space-y-4">
+                      {dietPlan.mealPlan.meals.map((meal) => (
+                        <li key={meal.id}>
+                          <p className="font-medium text-lg">{meal.title}</p>
+                          <p>Ready in: {meal.readyInMinutes} minutes</p>
+                          <p>Servings: {meal.servings}</p>
+                          <a
+                            href={meal.sourceUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-500 underline"
+                          >
+                            View Recipe
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p>No meals available for the selected criteria.</p>
+                  )}
+                </div>
+
+                <div className="mt-4">
+                  <h3 className="font-bold">Nutrients:</h3>
+                  <p>Calories: {dietPlan.mealPlan.nutrients.calories}</p>
+                  <p>Protein: {dietPlan.mealPlan.nutrients.protein}g</p>
+                  <p>Fat: {dietPlan.mealPlan.nutrients.fat}g</p>
+                  <p>Carbohydrates: {dietPlan.mealPlan.nutrients.carbohydrates}g</p>
+                </div>
+              </div>
+            )}
           </div>
-  
-          {/* Diet Dropdown */}
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full px-2 mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                <GiFruitBowl className="inline-block mr-2" /> Diet{' '}
-                <span className="text-red-500">*</span>
-              </label>
-              <select
-                name="diet"
-                value={formData.diet}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.diet ? 'border-red-500' : 'focus:ring-indigo-500'
-                }`}
-                required
-              >
-                <option value="vegetarian">Vegetarian</option>
-                <option value="non-vegetarian">Non-Vegetarian</option>
-              </select>
-              {errors.diet && <p className="text-red-500">{errors.diet}</p>}
-            </div>
-          </div>
-  
-          {/* Exclude (Optional) */}
-          <div className="flex flex-wrap -mx-2">
-            <div className="w-full px-2 mb-4">
-              <label className="block text-gray-700 font-bold mb-2">
-                <MdCancel className="inline-block mr-2" /> Exclude (optional)
-              </label>
-              <input
-                type="text"
-                name="exclude"
-                value={formData.exclude}
-                onChange={handleInputChange}
-                className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 ${
-                  errors.exclude ? 'border-red-500' : 'focus:ring-indigo-500'
-                }`}
-                placeholder="e.g., shellfish, olives"
-              />
-            </div>
-          </div>
-  
-          <button
-            type="submit"
-            className="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 transition duration-300"
-            disabled={loading}
-          >
-            {loading ? 'Generating...' : 'Generate Plan'}
-          </button>
-        </form>
-  
-        {/* Display Diet Plan Output */}
-        {error && <p className="text-red-500 text-center mt-4">{error}</p>}
-        {dietPlan && (
-          <div className="mt-8 p-6 bg-white bg-opacity-30 backdrop-blur-lg rounded-lg shadow-lg">
-            <h2 className="text-2xl font-bold mb-4 text-indigo-600">
-              {dietPlan.message}
-            </h2>
-            <div>
-              <h3 className="font-bold">Meals:</h3>
-              {dietPlan?.mealPlan?.meals && dietPlan.mealPlan.meals.length > 0 ? (
-                <ul className="space-y-4">
-                  {dietPlan.mealPlan.meals.map((meal) => (
-                    <li key={meal.id}>
-                      <p className="font-medium text-lg">{meal.title}</p>
-                      <p>Ready in: {meal.readyInMinutes} minutes</p>
-                      <p>Servings: {meal.servings}</p>
-                      <a
-                        href={meal.sourceUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 underline"
-                      >
-                        View Recipe
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              ) : (
-                <p>No meals available for the selected criteria.</p>
-              )}
-            </div>
-  
-            <div className="mt-4">
-              <h3 className="font-bold">Nutrients:</h3>
-              <p>Calories: {dietPlan.mealPlan.nutrients.calories}</p>
-              <p>Protein: {dietPlan.mealPlan.nutrients.protein}g</p>
-              <p>Fat: {dietPlan.mealPlan.nutrients.fat}g</p>
-              <p>Carbohydrates: {dietPlan.mealPlan.nutrients.carbohydrates}g</p>
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );
-
-
-  
-  
 };
 
 export default DietPlan;

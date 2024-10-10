@@ -19,12 +19,31 @@ import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NavigationBar from './components/NavigationBar';
 const DietPage = () => (
-  <>
-    <DietPlan />
-    <CalorieCalculator />
-    <WorkoutPlan />
-  </>
+  <div className="flex flex-col items-center w-full h-screen overflow-auto p-4">
+    <div className="w-full max-w-3xl mb-4">
+      <div className="bg-white p-4 rounded-lg shadow-md h-full">
+        <DietPlan />
+      </div>
+    </div>
+    <div className="w-full max-w-3xl mb-4">
+      <div className="bg-white p-4 rounded-lg shadow-md h-full">
+        <CalorieCalculator />
+      </div>
+    </div>
+    <div className="w-full max-w-3xl">
+      <div className="bg-white p-4 rounded-lg shadow-md h-full">
+        <WorkoutPlan />
+      </div>
+    </div>
+  </div>
 );
+
+
+
+
+
+
+
 
 const MainLayout = ({ children }) => (
   <div className="flex">
