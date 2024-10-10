@@ -56,3 +56,22 @@ code {
 .font-cambria {
   font-family: 'Cambria', serif;
 }
+
+
+.welcome-heading {
+  font-size: 2.5rem; /* Increase size */
+  font-weight: bold;
+  text-align: center;
+  margin: 20px 0;
+  color: #fff; /* Text color */
+  background: linear-gradient(90deg, #4f46e5, #6ee7b7); /* Gradient background */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; /* Text fill for gradient effect */
+  transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition */
+  padding: 10px 0; /* Padding for better appearance */
+}
+
+.welcome-heading:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+  color: #fbbf24; /* Change color on hover */
+}

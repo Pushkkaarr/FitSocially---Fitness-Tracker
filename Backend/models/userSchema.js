@@ -18,6 +18,10 @@ const userSchema=mongoose.Schema({
         required:true,
         unique :true
     },
+    gym_joined:{
+        type:String,
+        required:true
+    },
     age:{
         type:Number,
         //required:true

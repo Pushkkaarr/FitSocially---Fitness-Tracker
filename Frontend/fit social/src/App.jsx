@@ -39,7 +39,7 @@ const DietPage = () => (
   </div>
 );
 const MainLayout = ({ children }) => (
-  <div className="flex">
+  <div className="flex h-screen">
     <div className="w-1/4 ">
       <NavigationBar /> {/* Left Sidebar */}
     </div>

@@ -30,8 +30,8 @@ const NavigationBar = () => {
         {[
           { to: "/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
           { to: "/profile", icon: <FaUser />, label: "Profile" },
-          { to: "/social", icon: <FaComments />, label: "Social" },
-          { to: "/chat", icon: <FaUsers />, label: "Chats" },
+          { to: "/chat", icon: <FaComments />, label: "Chats" },
+          { to: "/social", icon: <FaUsers />, label: "Social" },
           { to: "/diet", icon: <FaUtensils />, label: "Diet or Workout Plans" },
           { to: "/", icon: <FaSignOutAlt />, label: "LogOut" },
         ].map(({ to, icon, label }) => (
