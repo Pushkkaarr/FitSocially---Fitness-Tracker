@@ -27,10 +27,7 @@ const NavigationBar = () => {
       >
         {/* Sidebar Toggle Button */}
         <div className="flex justify-end p-5">
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="focus:outline-none"
-          >
+          <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
             {isOpen ? (
               <FaTimes className="text-white text-2xl" />
             ) : (
@@ -45,10 +42,8 @@ const NavigationBar = () => {
             <FaTachometerAlt className="text-xl" />
             {isOpen && (
               <NavLink
-                to="/dashboard" // Specify route path
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                } // Apply active class
+                to="/dashboard"
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 Dashboard
               </NavLink>
@@ -60,9 +55,7 @@ const NavigationBar = () => {
             {isOpen && (
               <NavLink
                 to="/profile"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                }
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 Profile
               </NavLink>
@@ -74,9 +67,7 @@ const NavigationBar = () => {
             {isOpen && (
               <NavLink
                 to="/social"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                }
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 Social
               </NavLink>
@@ -88,35 +79,31 @@ const NavigationBar = () => {
             {isOpen && (
               <NavLink
                 to="/chat/"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                }
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 Chats
               </NavLink>
             )}
           </li>
+
           <li className="flex items-center space-x-3 ml-5">
             <FaUtensils className="text-xl" />
             {isOpen && (
               <NavLink
                 to="/diet"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                }
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 Diet or Workout Plans
               </NavLink>
             )}
           </li>
+
           <li className="flex items-center space-x-3 ml-5">
             <FaSignOutAlt className="text-xl" />
             {isOpen && (
               <NavLink
                 to="/"
-                className={({ isActive }) =>
-                  isActive ? "text-blue-400" : "text-white"
-                }
+                className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
               >
                 LogOut
               </NavLink>
@@ -128,8 +115,8 @@ const NavigationBar = () => {
       {/* Main Content */}
       <div
         className={`flex-1 p-10 transition-all duration-300 ${
-          isOpen ? "ml-64" : "ml-"
-        }`}
+          isOpen ? "ml-64" : "ml-16"
+        }`} // Adjust margin based on sidebar width
       >
         <Outlet /> {/* This renders the child route component */}
       </div>

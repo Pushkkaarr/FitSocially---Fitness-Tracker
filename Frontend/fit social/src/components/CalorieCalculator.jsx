@@ -66,15 +66,15 @@ const CalorieCalculator = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6 bg-gradient-to-r from-sky-400 to-blue-600 shadow-lg rounded-lg border border-blue-800">
+    <div className="font-cambria max-w-3xl mx-auto p-6 bg-gradient-to-r from-sky-400 to-blue-600 shadow-lg rounded-lg border border-blue-800">
 
       <h2 className="text-3xl font-bold text-center mb-6 text-white font-cambria">
         Daily Calorie Calculator
       </h2>
-      <form onSubmit={handleSubmit} className="space-y-4 space-y-6">
-        <div className="flex flex-wrap -mx-2">
+      <form onSubmit={handleSubmit} className="block text-gray-700 font-bold mb-2 space-y-6  bg-white bg-opacity-70 rounded-lg p-6 shadow-lg">
+        <div className="flex flex-wrap -mx-2 ">
           <div className="w-full md:w-1/2 px-2 mb-4">
-            <label className="block text-white font-bold mb-2 font-cambria" htmlFor="age">
+            <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="age">
               <FaBirthdayCake className="inline-block mr-2" />
               Age
             </label>
@@ -94,7 +94,7 @@ const CalorieCalculator = () => {
             )}
           </div>
           <div className="w-full md:w-1/2 px-2 mb-4">
-            <label className="block text-white font-bold mb-2 font-cambria" htmlFor="gender">
+            <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="gender">
               <FaVenusMars className="inline-block mr-2" />
               Gender
             </label>
@@ -118,7 +118,7 @@ const CalorieCalculator = () => {
         </div>
         <div className="flex flex-wrap -mx-2">
           <div className="w-full md:w-1/2 px-2 mb-4">
-            <label className="block text-white font-bold mb-2 font-cambria" htmlFor="height">
+            <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="height">
               <FaRulerVertical className="inline-block mr-2" />
               Height (cm)
             </label>
@@ -138,7 +138,7 @@ const CalorieCalculator = () => {
             )}
           </div>
           <div className="w-full md:w-1/2 px-2 mb-4">
-            <label className="block text-white font-bold mb-2 font-cambria" htmlFor="weight">
+            <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="weight">
               <FaWeightHanging className="inline-block mr-2" />
               Weight (kg)
             </label>
@@ -159,7 +159,7 @@ const CalorieCalculator = () => {
           </div>
         </div>
         <div className="mb-4">
-          <label className="block text-white font-bold mb-2 font-cambria" htmlFor="activityLevel">
+          <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="activityLevel">
             <FaRunning className="inline-block mr-2" />
             Activity Level
           </label>
@@ -183,7 +183,7 @@ const CalorieCalculator = () => {
           )}
         </div>
         <div className="mb-6">
-          <label className="block text-white font-bold mb-2 font-cambria" htmlFor="goal">
+          <label className="block text-gray-700 font-bold mb-2 font-cambria" htmlFor="goal">
             <FaBullseye className="inline-block mr-2" />
             Goal
           </label>

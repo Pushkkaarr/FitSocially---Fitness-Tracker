@@ -83,12 +83,12 @@ const WorkoutPlan = () => {
 
   return (
     <div className="space-y-6 h-screen flex items-center justify-center font-cambria">
-      <div className="max-w-3xl mx-auto p-6 bg-white bg-opacity-30 backdrop-blur-lg shadow-lg rounded-lg border border-indigo-400 bg-gradient-to-r from-pink-500 to-indigo-500">
-        <h1 className="text-3xl font-bold text-center mb-6 text-indigo-600">
+      <div className="max-w-3xl mx-auto p-6 bg-white bg-opacity-30 backdrop-blur-lg shadow-lg rounded-lg border border-indigo-400 bg-gradient-to-r from-green-400 to-blue-500">
+        <h1 className="text-3xl font-bold text-center mb-6 text-white">
           Generate Your Workout Plan
         </h1>
   
-        <form onSubmit={handleSubmit} className="space-y-4 p-6 rounded-lg shadow-lg border border-indigo-400">
+        <form onSubmit={handleSubmit} className="  bg-white bg-opacity-70  space-y-4 p-6 rounded-lg shadow-lg border border-indigo-400">
           {/* Goal */}
           <div>
             <label className="block text-gray-700 font-bold mb-2">
