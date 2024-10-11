@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 const RegisterPage = () => {
   const [data,setData] = useState({
     name : "",
+    userName : "",
+    userBio :"",
     email : "",
     gym_joined : "",
     password : "",
@@ -62,6 +64,8 @@ const RegisterPage = () => {
         if(response.data.success){
             setData({
               name : "",
+              userName : "",
+              userBio :"",
               email : "",
               gym_joined : "",
               password : "",
@@ -94,6 +98,34 @@ const RegisterPage = () => {
                   placeholder='Enter your name' 
                   className='bg-slate-100 px-2 py-1 focus:outline-primary'
                   value={data.name}
+                  onChange={handleOnChange}
+                  required
+                />
+              </div>
+
+              <div className='flex flex-col gap-1'>
+                <label htmlFor='userName'>UserName :</label>
+                <input
+                  type='text'
+                  id='userName'
+                  name='userName'
+                  placeholder='Enter your Unique Username' 
+                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
+                  value={data.userName}
+                  onChange={handleOnChange}
+                  required
+                />
+              </div>
+
+              <div className='flex flex-col gap-1'>
+                <label htmlFor='userBio'>Bio :</label>
+                <input
+                  type='text'
+                  id='userBio'
+                  name='userBio'
+                  placeholder='Enter your Bio' 
+                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
+                  value={data.userBio}
                   onChange={handleOnChange}
                   required
                 />

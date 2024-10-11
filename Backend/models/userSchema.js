@@ -5,6 +5,11 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
+    userName:{
+        type:String,
+        required:true,
+        unique : true
+    },
     password:{
         type:String,
         required:true
@@ -22,25 +27,9 @@ const userSchema=mongoose.Schema({
         type:String,
         required:true
     },
-    age:{
-        type:Number,
-        //required:true
-    },
-    contact:{
-        type:Number,
-       // required:true
-    },
-    weight:{
-        type:Number,
-        //required:true
-    },
-    BMI:{ //body mass index
-        type:Number,
-        //required:true
-    },
-    height:{
-        type:Number,
-       // required:true
+    userBio:{
+        type:String,
+        default:"Hey ! There I am using FitSocially"
     },
     profile_pic :{
         type:String, //url to the image
@@ -49,15 +38,15 @@ const userSchema=mongoose.Schema({
     followers: {
         type: Array,
         default: [],
-      },
-      following: {
+    },
+    following: {
         type: Array,
         default: [],
-      },
-      targetCalories:{
+    },
+    targetCalories:{
         type:Number,
         
-      }
+    }
 },
 {timestamps:true
 });

@@ -103,8 +103,8 @@ const Profile = () => {
           </div>
           <div className="flex-1 text-center md:text-left">
             <h1 className="text-2xl font-bold">{profile?.name || "Jane Doe"}</h1>
-            <p className="text-gray-500">{profile?.username || "@janedoe"}</p>
-            <p className="mt-2">{profile?.bio || "Fitness enthusiast | Healthy living advocate | Software developer"}</p>
+            <p className="text-gray-500">{"@"+profile?.userName || "@janedoe"}</p>
+            <p className="mt-2">{profile?.userBio || "Fitness enthusiast | Healthy living advocate | Software developer"}</p>
             <div className="flex justify-center md:justify-start gap-4 mt-2">
               <span className="text-blue-500"><strong>{profile?.followers?.length || 0}</strong> Followers</span>
               <span className="text-blue-500"><strong>{profile?.following?.length || 0}</strong> Following</span>

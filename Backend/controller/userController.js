@@ -9,7 +9,7 @@ dotenv.config();
 
 export const registerUser = async (req, res) => {
   try {
-    const { name, email, password, profile_pic } = req.body;
+    const { name,userName,userBio, email,gym_joined, password, profile_pic } = req.body;
 
     const checkEmail = await User.findOne({ email }); // to find already registered user
 
@@ -26,7 +26,10 @@ export const registerUser = async (req, res) => {
 
     const payload = {
       name,
+      userName,
+      userBio,
       email,
+      gym_joined,
       profile_pic, //profile spelling wrong hence error
       password: hashPassword,
     };
