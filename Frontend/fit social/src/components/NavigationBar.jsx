@@ -12,9 +12,12 @@ import {
   FaUsers,
   FaSignOutAlt
 } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const {user} = useSelector(store=>store.user);
+
 
   return (
     <div className={`bg-gray-800 text-white h-screen fixed transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
@@ -29,7 +32,7 @@ const NavigationBar = () => {
       <ul className="space-y-4">
         {[
           { to: "/dashboard", icon: <FaTachometerAlt />, label: "Dashboard" },
-          { to: "/profile", icon: <FaUser />, label: "Profile" },
+          { to: `/profile/${user?._id}`, icon: <FaUser />, label: "Profile" },
           { to: "/chat", icon: <FaComments />, label: "Chats" },
           { to: "/social", icon: <FaUsers />, label: "Social" },
           { to: "/diet", icon: <FaUtensils />, label: "Diet or Workout Plans" },

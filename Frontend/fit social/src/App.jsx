@@ -14,7 +14,7 @@ import MessagePage from './components/MessagePage';
 import { Provider } from 'react-redux'
 import { store } from './redux/store';
 import Social from './pages/Social';
-
+import Profile from './components/Profile'
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NavigationBar from './components/NavigationBar';
@@ -63,6 +63,7 @@ const AppRoutes = () => {
       <Route path="/forgot-password" element={<Forgotpassword/>} />
       <Route path="/social" element={<MainLayout><Social/></MainLayout>}/>
       <Route path='/dashboard' element={<MainLayout><Dashboard/></MainLayout>}/>
+      <Route path='/profile/:id' element={<MainLayout><Profile/></MainLayout>}/>
       <Route path='/Navigation' element={<NavigationBar/>}/>
     </Routes>
   );

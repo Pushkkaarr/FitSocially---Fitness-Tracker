@@ -54,6 +54,10 @@ const userSchema=mongoose.Schema({
         type: Array,
         default: [],
       },
+      targetCalories:{
+        type:Number,
+        
+      }
 },
 {timestamps:true
 });
