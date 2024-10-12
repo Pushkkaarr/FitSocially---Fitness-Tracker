@@ -18,6 +18,7 @@ import Profile from './components/Profile'
 import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NavigationBar from './components/NavigationBar';
+import ChatBot from './pages/ChatBot';
 
 const DietPage = () => (
   <div className="flex flex-col items-center w-full h-screen overflow-auto p-4">
@@ -65,6 +66,7 @@ const AppRoutes = () => {
       <Route path='/dashboard' element={<MainLayout><Dashboard/></MainLayout>}/>
       <Route path='/profile/:id' element={<MainLayout><Profile/></MainLayout>}/>
       <Route path='/Navigation' element={<NavigationBar/>}/>
+      <Route path='/chatBot' element={<MainLayout><ChatBot/></MainLayout>}/>
     </Routes>
   );
 };
