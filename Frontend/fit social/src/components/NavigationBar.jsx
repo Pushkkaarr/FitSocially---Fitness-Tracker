@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   FaBars,
   FaTimes,
@@ -10,17 +10,18 @@ import {
   FaComments,
   FaUtensils,
   FaUsers,
-  FaSignOutAlt
-} from "react-icons/fa";
-import { useSelector } from "react-redux";
+  FaSignOutAlt,
+} from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const NavigationBar = () => {
   const [isOpen, setIsOpen] = useState(true);
-  const {user} = useSelector(store=>store.user);
-
+  const { user } = useSelector((store) => store.user);
 
   return (
-    <div className={`bg-gray-800 text-white h-screen fixed transition-all duration-300 ${isOpen ? "w-64" : "w-16"}`}>
+    <div
+      className={`bg-gray-800 text-white h-screen transition-all duration-300 ${isOpen ? 'w-64' : 'w-16'}`}
+    >
       {/* Sidebar Toggle Button */}
       <div className="flex justify-end p-5">
         <button onClick={() => setIsOpen(!isOpen)} className="focus:outline-none">
@@ -41,7 +42,7 @@ const NavigationBar = () => {
           <li key={to} className="flex items-center space-x-3 ml-5">
             <NavLink
               to={to}
-              className={({ isActive }) => (isActive ? "text-blue-400" : "text-white")}
+              className={({ isActive }) => (isActive ? 'text-blue-400' : 'text-white')}
             >
               <div className="flex items-center">
                 {icon}

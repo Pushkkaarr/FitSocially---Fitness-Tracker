@@ -41,13 +41,11 @@ const DietPage = () => (
 );
 const MainLayout = ({ children }) => (
   <div className="flex h-screen">
-    <div className="w-1/4 ">
-      <NavigationBar /> {/* Left Sidebar */}
-    </div>
-    <div className="flex-1 mx-5">
-      {children} {/* Right Main Content */}
-    </div>
+  <NavigationBar /> {/* Left Sidebar */}
+  <div className="flex-1 mx-5 transition-all duration-300">
+    {children} {/* Right Main Content */}
   </div>
+</div>
 );
 
 const AppRoutes = () => {
