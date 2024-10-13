@@ -31,7 +31,7 @@ const Rightsidebar = ({otheruser}) => {
                 </div>
                 <div className="ml-2">
                   <h1 className="font-bold">{user.name}</h1>
-                  <p className="text-sm">{user.username}</p>
+                  <p className="text-sm">@{user.userName}</p>
                 </div>
               </div>
               <div>

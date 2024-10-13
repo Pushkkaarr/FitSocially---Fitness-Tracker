@@ -124,7 +124,7 @@ const Profile = () => {
       </div>
 
       {/* Daily Target Calories */}
-      <div className="bg-white rounded-lg shadow p-6 mb-8">
+      {profile?._id === user?._id ? (<div className="bg-white rounded-lg shadow p-6 mb-8">
         <h2 className="text-xl font-bold mb-4">Daily Target Calories</h2>
         <div className="flex items-center gap-4">
           <input
@@ -141,7 +141,10 @@ const Profile = () => {
             Save
           </button>
         </div>
-      </div>
+      </div>):(
+        <span></span>
+      )}
+      
 
       {/* Posts */}
       <h2 className="text-2xl font-bold mb-4">Posts</h2>
@@ -153,7 +156,7 @@ const Profile = () => {
           {/* Display tweet image if it exists */}
           {tweet.image && (
             <img
-              src={tweet.image}
+              src={`http://localhost:3000${tweet.image}`}
               alt={<CiImageOn />}
               className="w-full h-auto object-cover rounded-lg mb-2"
             />

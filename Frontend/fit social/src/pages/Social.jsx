@@ -26,7 +26,7 @@ const Social = () => {
   useGetMyTweet(user?._id)
 
   return (
-    <div className='flex    '>
+    <div className='flex w-[100%]  '>
     {/* <Leftsidebar/> */}
     <Feed/>
     <Rightsidebar otheruser={otheruser}/>

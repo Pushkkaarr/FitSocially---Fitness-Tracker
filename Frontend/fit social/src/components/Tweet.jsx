@@ -1,6 +1,6 @@
 import React from "react";
 import Avatar from "react-avatar";
-import { FaRegComment } from "react-icons/fa";
+import { FaRegComment, FaRegHeart } from "react-icons/fa";
 import { CiHeart, CiBookmark } from "react-icons/ci";
 import axios from "axios";
 // import { TWEET_API_END_POINT } from "../utils/constant";
@@ -65,7 +65,7 @@ const Tweet = ({ tweet }) => {
           <div className="flex items-center">
             <h1 className="font-bold">{tweet?.userDetails[0]?.name || "Anonymous"}</h1>
             <p className="text-gray-500 text-sm ml-1">
-              @{tweet?.userDetails[0]?.username || "unknown"}
+              @{tweet?.userDetails[0]?.userName || "unknown"}
             </p>
           </div>
           <div>
@@ -81,27 +81,17 @@ const Tweet = ({ tweet }) => {
             </div>
           )}
           <div className="flex justify-between my-3">
-            <div className="flex items-center">
-              <div className="p-2 hover:bg-green-200 rounded-full cursor-pointer">
-                <FaRegComment size="20px" />
-              </div>
-              <p>{tweet?.comments || 0}</p>
-            </div>
+           
             <div className="flex items-center">
               <div
                 onClick={() => likehandler(tweet?._id)}
-                className="p-2 hover:bg-pink-200 rounded-full cursor-pointer"
+                className="p-2 hover:bg-pink-300 rounded-full cursor-pointer"
               >
-                <CiHeart size="24px" />
+                <FaRegHeart size="24px" />
               </div>
               <p>{tweet?.likes.length || 0}</p>
             </div>
-            <div className="flex items-center">
-              <div className="p-2 hover:bg-yellow-200 rounded-full cursor-pointer">
-                <CiBookmark size="24px" />
-              </div>
-              <p>0</p>
-            </div>
+           
             {user?._id === tweet?.userId && (
               <div
                 onClick={() => deleteTweetHandler(tweet?._id)}
