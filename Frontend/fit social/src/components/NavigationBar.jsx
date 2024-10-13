@@ -11,6 +11,7 @@ import {
   FaUtensils,
   FaUsers,
   FaSignOutAlt,
+  FaRobot,
 } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -37,6 +38,7 @@ const NavigationBar = () => {
           { to: "/chat", icon: <FaComments />, label: "Chats" },
           { to: "/social", icon: <FaUsers />, label: "Social" },
           { to: "/diet", icon: <FaUtensils />, label: "Diet or Workout Plans" },
+          { to: "/chatbot", icon: <FaRobot />, label: "Help" },
           { to: "/", icon: <FaSignOutAlt />, label: "LogOut" },
         ].map(({ to, icon, label }) => (
           <li key={to} className="flex items-center space-x-3 ml-5">

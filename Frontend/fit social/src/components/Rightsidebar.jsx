@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import Avatar from "react-avatar";
 import { Link } from "react-router-dom";
 
+const Rightsidebar = ({ otheruser }) => {
+  const [searchTerm, setSearchTerm] = useState("");
 
-const Rightsidebar = ({otheruser}) => {
+  // Filter users based on the search term
+  const filteredUsers = otheruser?.filter(user => 
+    (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) || 
+    (user.userName && user.userName.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
+
   return (
     <div className="w-[25%]">
       <div className="flex items-center p-2 bg-gray-100 rounded-full outline-none w-full">
@@ -13,12 +20,14 @@ const Rightsidebar = ({otheruser}) => {
           type="text"
           className="bg-transparent outline-none px-2"
           placeholder="Search"
+          value={searchTerm} // Set the input value to the state variable
+          onChange={(e) => setSearchTerm(e.target.value)} // Update the state on change
         />
       </div>
       <div className="p-4 bg-gray-100 rounded-2xl my-4">
         <h1 className="font-bold text-lg">Who to follow</h1>
 
-        {otheruser?.map((user) => {
+        {filteredUsers?.map((user) => {
           return (
             <div key={user?._id} className="flex items-center justify-between my-3">
               <div className="flex">
@@ -35,10 +44,11 @@ const Rightsidebar = ({otheruser}) => {
                 </div>
               </div>
               <div>
-                <Link to={`/profile/${user?._id}`} >  <button className="px-4 py-1 bg-black text-white rounded-full">
-                  Profile
-                </button></Link>
-               
+                <Link to={`/profile/${user?._id}`} >
+                  <button className="px-4 py-1 bg-black text-white rounded-full">
+                    Profile
+                  </button>
+                </Link>
               </div>
             </div>
           );

@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios"; // Import axios
 import { FaArrowRight } from "react-icons/fa";
 
 // Simple Button component
@@ -26,14 +27,26 @@ const ChatBot = () => {
   const [input, setInput] = useState("");
   const scrollRef = useRef(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (input.trim()) {
-      setMessages(prev => [...prev, { role: "user", content: input }]);
-      setTimeout(() => {
-        setMessages(prev => [...prev, { role: "assistant", content: `You said: ${input}` }]);
-      }, 500);
+      const userMessage = input;
+      setMessages((prev) => [...prev, { role: "user", content: userMessage }]);
       setInput("");
+
+      try {
+        // Send the user message to the backend
+        const response = await axios.post('http://localhost:3000/api/user/chatbot', { message: userMessage }); // Adjust the URL as needed
+        
+        // Extract the bot's reply from the response structure
+        const botReply = response.data.reply.candidates[0].content.parts[0].text; // Adjust based on your actual structure
+
+        // Add the bot's reply to messages
+        setMessages((prev) => [...prev, { role: "assistant", content: botReply }]);
+      } catch (error) {
+        console.error("Error connecting to the chatbot API:", error);
+        setMessages((prev) => [...prev, { role: "assistant", content: "Sorry, I couldn't process that." }]);
+      }
     }
   };
 

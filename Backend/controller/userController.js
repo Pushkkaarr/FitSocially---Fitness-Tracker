@@ -491,3 +491,38 @@ export const targetCalories = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
 };
+
+const geminiApiKey = process.env.GEMINI_API_KEY;
+const geminiApiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${geminiApiKey}`;
+
+export const chatBot = async (req, res) => {
+  const userMessage = req.body.message;
+  console.log(userMessage);
+    // Ensure userMessage comes from req.body
+
+  try {
+    // Make the API call to the Gemini API
+    const response = await axios.post(geminiApiUrl, {
+      contents: [
+        {
+          parts: [
+            {
+              text: userMessage,  // Use dynamic user input
+            },
+          ],
+        },
+      ],
+    }, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    // Extract the bot's reply
+    const botReply = response.data;
+    res.json({ reply: botReply });
+  } catch (error) {
+    console.error("Error details:", error.response ? error.response.data : error.message);
+    res.status(500).json({ error: error.response ? error.response.data : 'Failed to connect to chatbot API' });
+  }
+};
