@@ -12,6 +12,7 @@ import {
   FaUsers,
   FaSignOutAlt,
   FaRobot,
+  FaMusic
 } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
 
@@ -39,6 +40,7 @@ const NavigationBar = () => {
           { to: "/social", icon: <FaUsers />, label: "Social" },
           { to: "/diet", icon: <FaUtensils />, label: "Diet or Workout Plans" },
           { to: "/chatbot", icon: <FaRobot />, label: "Help" },
+          { to: "/music", icon: <FaMusic />, label: "Music" }, // Added Music button
           { to: "/", icon: <FaSignOutAlt />, label: "LogOut" },
         ].map(({ to, icon, label }) => (
           <li key={to} className="flex items-center space-x-3 ml-5">

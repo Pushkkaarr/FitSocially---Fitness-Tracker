@@ -19,6 +19,9 @@ import LandingPage from './pages/LandingPage';
 import Dashboard from './pages/Dashboard';
 import NavigationBar from './components/NavigationBar';
 import ChatBot from './pages/ChatBot';
+import MusicPlayer from './pages/MusicPlayer';
+import ContextProvider from './helpers/Context'; // Import your ContextProvider
+import AboutUs from './pages/AboutUs';
 
 const DietPage = () => (
   <div className="flex flex-col items-center w-full h-screen overflow-auto p-4">
@@ -65,6 +68,8 @@ const AppRoutes = () => {
       <Route path='/profile/:id' element={<MainLayout><Profile/></MainLayout>}/>
       <Route path='/Navigation' element={<NavigationBar/>}/>
       <Route path='/chatBot' element={<MainLayout><ChatBot/></MainLayout>}/>
+      <Route path='/aboutUs' element={<MainLayout><AboutUs/></MainLayout>}/>
+      <Route path='/music' element={<MainLayout><MusicPlayer/></MainLayout>}/>
     </Routes>
   );
 };
@@ -73,8 +78,10 @@ const AppRoutes = () => {
 const App = () => {
   return (
     <Provider store={store}> {/* Wrap your app in Provider */}
-      <Toaster /> {/* Place Toaster at the top level */}
-      <AppRoutes />
+      <ContextProvider> {/* Wrap your app in ContextProvider */}
+        <Toaster /> {/* Place Toaster at the top level */}
+        <AppRoutes />
+      </ContextProvider>
     </Provider>
   );
 };

@@ -35,10 +35,10 @@ const LandingPage = () => {
           <span className="ml-2 text-2xl font-bold text-blue-600 dark:text-blue-400">FitSocially</span>
         </Link>
         <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="/diet">
+          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="/email">
             Features
           </Link>
-          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="/email">
+          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="/aboutUs">
             About
           </Link>
           <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="#contact">
