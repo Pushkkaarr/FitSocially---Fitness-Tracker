@@ -1,124 +1,124 @@
-import React, { useEffect, useState } from 'react'
-import { IoClose } from "react-icons/io5";
+import React, { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import uploadFile from '../helpers/uploadFile';
-import axios from 'axios'
+import axios from 'axios';
 import toast from 'react-hot-toast';
-import { PiUserCircle } from "react-icons/pi";
-import Avatar from '../components/Avatar';
 import { useDispatch } from 'react-redux';
-import { getUser, setToken, setUser } from '../redux/userSlice';
+import { setToken, setUser } from '../redux/userSlice';
+import Avatar from '../components/Avatar';
+import { FaArrowLeft } from 'react-icons/fa'; // Import the arrow icon
 
-const CheckPasswordPage = () => {
-  const [data,setData] = useState({
-    password : "",
-    userId : ""
-  })
-  const navigate = useNavigate()
-  const location = useLocation()
-  const dispatch = useDispatch()
+export default function CheckPasswordPage() {
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  const dispatch = useDispatch();
 
-  useEffect(()=>{
-    if(!location?.state?.name){
-      navigate('/email')
+  useEffect(() => {
+    if (!location?.state?.name) {
+      navigate('/email');
     }
-  },[])
+  }, [location, navigate]);
 
-  const handleOnChange = (e)=>{
-    const { name, value} = e.target
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-    setData((preve)=>{
-      return{
-          ...preve,
-          [name] : value
-      }
-    })
-  }
-
-  const handleSubmit = async(e)=>{
-    e.preventDefault()
-    e.stopPropagation()
-
-    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user/checkPassword`
+    const URL = `${import.meta.env.VITE_BACKEND_URL}/api/user/checkPassword`;
 
     try {
-        const response = await axios({
-          method :'post',
-          url : URL,
-          data : {
-            userId : location?.state?._id,
-            password : data.password
-          },
-          withCredentials : true
-        })
+      const response = await axios({
+        method: 'post',
+        url: URL,
+        data: {
+          userId: location?.state?._id,
+          password: password
+        },
+        withCredentials: true
+      });
 
-        toast.success(response.data.message)
+      toast.success(response.data.message);
 
-        if(response.data.success){
-            dispatch(setToken(response?.data?.token))
-            dispatch(setUser(response?.data?.user))
-            console.log('Response Data:', response.data);
+      if (response.data.success) {
+        dispatch(setToken(response?.data?.token));
+        dispatch(setUser(response?.data?.user));
+        console.log('Response Data:', response.data);
 
-            localStorage.setItem('token',response?.data?.token)
+        localStorage.setItem('token', response?.data?.token);
 
-            setData({
-              password : "",
-            })
-            navigate('/social')
-        }
+        setPassword("");
+        navigate('/social');
+      }
     } catch (error) {
-        toast.error(error?.response?.data?.message)
+      toast.error(error?.response?.data?.message);
     }
   }
 
-
   return (
-    <div className='mt-5 font-cambria'>
-        <div className='bg-white w-full max-w-md  rounded overflow-hidden p-4 mx-auto'>
-
-            <div className='w-fit mx-auto mb-2 flex justify-center items-center flex-col'>
-                {/* <PiUserCircle
-                  size={80}
-                /> */}
-                <Avatar
-                  width={70}
-                  height={70}
-                  name={location?.state?.name}
-                  imageUrl={location?.state?.profile_pic}
-                />
-                <h2 className='font-semibold text-lg mt-1'>{location?.state?.name}</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-400 to-blue-600 p-4 font-cambria">
+      <div className="absolute top-4 left-4">
+        <Link to="/email">
+          <div className="bg-white bg-opacity-30 backdrop-blur-lg rounded-full p-2 flex items-center shadow-lg hover:bg-opacity-40 transition">
+            <FaArrowLeft className="text-white text-2xl" /> {/* Use FaArrowLeft icon */}
+          </div>
+        </Link>
+      </div>
+      <div className="w-full max-w-4xl bg-white bg-opacity-20 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+        <div className="md:w-1/2 p-8">
+          <div className="text-center mb-8"> {/* Centering the content */}
+            
+            <div className='pl-[140px]'>
+              <Avatar
+              width={120}
+              height={120}
+              name={location?.state?.name}
+              imageUrl={location?.state?.profile_pic}
+              className="mx-auto" // Center alignment
+            />
             </div>
-
-          <form className='grid gap-4 mt-3' onSubmit={handleSubmit}>
-              
-
-          <div className='flex flex-col gap-1'>
-                <label htmlFor='password'>Password :</label>
-                <input
-                  type='password'
-                  id='password'
-                  name='password'
-                  placeholder='enter your password' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.password}
-                  onChange={handleOnChange}
-                  required
-                />
-              </div>
-
-              <button
-               className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
-              >
-                Login
-              </button>
-
+            <h2 className="text-xl font-semibold text-white pl-3">{location?.state?.name}</h2> {/* Adjusted margin */}
+          </div>
+          <form className="space-y-6" onSubmit={handleSubmit}>
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-white">
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                className="mt-1 block w-full px-3 py-2 bg-white bg-opacity-20 border border-transparent rounded-md text-white placeholder-gray-300 focus:outline-none focus:ring-2 focus:ring-white focus:border-transparent"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+            </div>
+            <button
+              type="submit"
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              Login
+            </button>
           </form>
-
-          <p className='my-3 text-center'><Link to={"/forgot-password"} className='hover:text-primary font-semibold'>Forgot password ?</Link></p>
+          <p className="mt-6 text-center text-sm text-white">
+            <Link to="/forgot-password" className="font-medium text-blue-200 hover:text-blue-100">
+              Forgot password?
+            </Link>
+          </p>
         </div>
+        <div className="md:w-1/2 relative overflow-hidden">
+          <img
+            src="https://www.wellness360.fit/wp-content/uploads/2020/06/26424-scaled.jpg"
+            alt="Fitness"
+            className="object-cover w-50 h-50 rounded-lg opacity-65 pt-7 pr-5"
+          />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h3 className="text-4xl font-bold text-white text-center">
+              Welcome to<br />FitSocially
+            </h3>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
-
-export default CheckPasswordPage
-

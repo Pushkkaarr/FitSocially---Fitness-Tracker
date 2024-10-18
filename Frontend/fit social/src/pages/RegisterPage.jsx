@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import { Link, useNavigate } from 'react-router-dom';
 import uploadFile from '../helpers/uploadFile';
-import axios from 'axios'
+import axios from 'axios';
+import { FaArrowLeft } from 'react-icons/fa'; // Import the arrow icon
 import toast from 'react-hot-toast';
 
 const RegisterPage = () => {
@@ -83,100 +84,77 @@ const RegisterPage = () => {
 
 
   return (
-    <div className='mt-5 font-cambria'>
-  <div className='bg-white w-full max-w-lg rounded overflow-hidden p-6 mx-auto'> {/* Increased max-w-md to max-w-lg and padding */}
-    <h3 className="welcome-heading">Welcome to FitSocially App!</h3>
-    
-
-          <form className='grid gap-4 mt-5' onSubmit={handleSubmit}>
-              <div className='flex flex-col gap-1'>
-                <label htmlFor='name'>Name :</label>
-                <input
-                  type='text'
-                  id='name'
-                  name='name'
-                  placeholder='Enter your name' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.name}
-                  onChange={handleOnChange}
-                  required
-                />
-              </div>
-
-              <div className='flex flex-col gap-1'>
-                <label htmlFor='userName'>UserName :</label>
-                <input
-                  type='text'
-                  id='userName'
-                  name='userName'
-                  placeholder='Enter your Unique Username' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.userName}
-                  onChange={handleOnChange}
-                  required
-                />
-              </div>
-
-              <div className='flex flex-col gap-1'>
-                <label htmlFor='userBio'>Bio :</label>
-                <input
-                  type='text'
-                  id='userBio'
-                  name='userBio'
-                  placeholder='Enter your Bio' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.userBio}
-                  onChange={handleOnChange}
-                  required
-                />
-              </div>
-
-              <div className='flex flex-col gap-1'>
-                <label htmlFor='email'>Email :</label>
-                <input
-                  type='email'
-                  id='email'
-                  name='email'
-                  placeholder='Enter your email' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.email}
-                  onChange={handleOnChange}
-                  required
-                />
-              </div>
-
-              <div className='flex flex-col gap-1'>
-            <label htmlFor='gym_joined'>Gym Name :</label>
-            <input
-              type='text'
-              id='gym_joined'
-              name='gym_joined'
-              placeholder='Enter your gym name'
-              className='bg-slate-100 px-2 py-1 focus:outline-primary'
-              value={data.gym_joined}
-              onChange={handleOnChange}
-              required
-            />
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-400 to-blue-600 p-4 font-cambria">
+      <div className="absolute top-4 left-4">
+        <Link to="/email">
+          <div className="bg-white bg-opacity-30 backdrop-blur-lg rounded-full p-2 flex items-center shadow-lg hover:bg-opacity-40 transition">
+            <FaArrowLeft className="text-white text-2xl" /> {/* Use FaArrowLeft icon */}
           </div>
+        </Link>
+      </div>
+      <div className="w-full max-w-5xl bg-white bg-opacity-30 backdrop-blur-lg rounded-xl shadow-lg overflow-hidden flex flex-col md:flex-row">
+        <div className="md:w-2/3 p-8">
+        <h3 className="text-3xl font-bold text-white mb-6 italic">
+  Welcome to FitSocially App!
+</h3>
 
-              <div className='flex flex-col gap-1'>
-                <label htmlFor='password'>Password :</label>
+          <form className="grid gap-4" onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="name" className="text-white">Name:</label>
                 <input
-                  type='password'
-                  id='password'
-                  name='password'
-                  placeholder='Enter your password' 
-                  className='bg-slate-100 px-2 py-1 focus:outline-primary'
-                  value={data.password}
-                  onChange={handleOnChange}
-                  required
+                  type="text" id="name" name="name" placeholder="Enter your name"
+                  className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={data.name} onChange={handleOnChange} required
                 />
               </div>
-
-              <div className='flex flex-col gap-1'>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="userName" className="text-white">Username:</label>
+                <input
+                  type="text" id="userName" name="userName" placeholder="Enter your Unique Username"
+                  className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={data.userName} onChange={handleOnChange} required
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="userBio" className="text-white">Bio:</label>
+              <input
+                type="text" id="userBio" name="userBio" placeholder="Enter your Bio"
+                className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={data.userBio} onChange={handleOnChange} required
+              />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="flex flex-col gap-1">
+                <label htmlFor="email" className="text-white">Email:</label>
+                <input
+                  type="email" id="email" name="email" placeholder="Enter your email"
+                  className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={data.email} onChange={handleOnChange} required
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label htmlFor="gym_joined" className="text-white">Gym Name:</label>
+                <input
+                  type="text" id="gym_joined" name="gym_joined" placeholder="Enter your gym name"
+                  className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  value={data.gym_joined} onChange={handleOnChange} required
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-1">
+              <label htmlFor="password" className="text-white">Password:</label>
+              <input
+                type="password" id="password" name="password" placeholder="Enter your password"
+                className="bg-white bg-opacity-20 px-3 py-2 rounded-md text-white placeholder-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={data.password} onChange={handleOnChange} required
+              />
+            </div>
+            <div className='flex flex-col gap-1'>
                 <label htmlFor='profile_pic'>Photo :
 
-                  <div className='h-14 bg-slate-200 flex justify-center items-center border rounded hover:border-primary cursor-pointer'>
+                  <div className='h-14 bg-slate-200 bg-opacity-25 flex justify-center items-center border rounded hover:border-primary cursor-pointer'>
                       <p className='text-sm max-w-[300px] text-ellipsis line-clamp-1'>
                         {
                           uploadPhoto?.name ? uploadPhoto?.name : "Upload profile photo"
@@ -203,19 +181,30 @@ const RegisterPage = () => {
                 />
               </div>
 
-
-              <button
-               className='bg-primary text-lg  px-4 py-1 hover:bg-secondary rounded mt-2 font-bold text-white leading-relaxed tracking-wide'
-              >
-                Register
-              </button>
-
+            <button className="bg-blue-600 text-lg px-4 py-2 hover:bg-blue-700 rounded-md mt-4 font-bold text-white leading-relaxed tracking-wide transition duration-300 ease-in-out">
+              Register
+            </button>
           </form>
-
-          <p className='my-3 text-center'>Already have account ? <Link to={"/email"} className='hover:text-primary font-semibold'>Login</Link></p>
+          <p className="mt-6 text-center text-white">
+            Already have an account? <Link to="/email" className="hover:text-blue-300 font-semibold">Login</Link>
+          </p>
         </div>
+        <div className="md:w-1/3 relative overflow-hidden">
+          <img
+            src="https://247fitness.co/public/uploads/blog-image/1512426536.jpg"
+            alt="Fitness"
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-blue-600 opacity-75"></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <h3 className="text-4xl font-bold text-white text-center">
+              Join the<br />Fitness Community
+            </h3>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
 export default RegisterPage
