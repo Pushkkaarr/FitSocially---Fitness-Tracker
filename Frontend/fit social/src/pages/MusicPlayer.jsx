@@ -1,17 +1,15 @@
 import "../../src/MusicPlayer.css"; // Update the CSS file as needed
 import { useContext, useEffect, useState } from "react";
 import Card from "../components/Music/Card";
-import CreatePlaylist from "../components/Music/CreatePlaylist";
-import initializePlaylist from "../helpers/initialize";
 import Navbar from "../components/Music/Navbar";
 import { MusicContext } from "../helpers/Context";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import arrow icons
 
 function MusicPlayer() {
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState("Workout Music"); // Start with "Fitness Gym"
   const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState(null);
-
   const musicContext = useContext(MusicContext);
   const isLoading = musicContext.isLoading;
   const setIsLoading = musicContext.setIsLoading;
@@ -20,13 +18,13 @@ function MusicPlayer() {
   const resultOffset = musicContext.resultOffset;
   const setResultOffset = musicContext.setResultOffset;
 
-  const fetchMusicData = async () => {
+  const fetchMusicData = async (searchKeyword = "") => {
     setTracks([]);
     window.scrollTo(0, 0);
     setIsLoading(true);
     try {
       const response = await fetch(
-        `https://api.spotify.com/v1/search?q=${keyword}&type=track&offset=${resultOffset}`,
+        `https://api.spotify.com/v1/search?q=${searchKeyword}&type=track&offset=${resultOffset}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -47,16 +45,39 @@ function MusicPlayer() {
     }
   };
 
+  const fetchTrendingSongs = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `https://api.spotify.com/v1/tracks?limit=20`, // Adjust if needed
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch trending songs");
+      }
+
+      const jsonData = await response.json();
+      setTracks(jsonData.tracks);
+    } catch (error) {
+      setMessage(error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       setResultOffset(0);
-      fetchMusicData();
+      fetchMusicData(keyword);
     }
   };
 
   useEffect(() => {
-    initializePlaylist();
-
     const fetchToken = async () => {
       try {
         const response = await fetch("https://accounts.spotify.com/api/token", {
@@ -73,13 +94,14 @@ function MusicPlayer() {
 
         const jsonData = await response.json();
         setToken(jsonData.access_token);
+        fetchMusicData("Fitness Gym"); // Fetch music data for "Fitness Gym" on load
       } catch (error) {
         setMessage(error.message);
       } finally {
         setIsLoading(false);
       }
     };
-    
+
     fetchToken();
     setLikedMusic(JSON.parse(localStorage.getItem("likedMusic")));
     setPinnedMusic(JSON.parse(localStorage.getItem("pinnedMusic")));
@@ -102,35 +124,34 @@ function MusicPlayer() {
             </div>
           </div>
         )}
-        
+
         <div className="flex flex-wrap justify-between p-4">
-  {tracks.map((element) => (
-    <Card key={element.id} element={element} />
-  ))}
-</div>
-
-
-
+          {tracks.map((element) => (
+            <Card key={element.id} element={element} />
+          ))}
+        </div>
 
         <div className={`flex justify-between my-4 ${tracks.length === 0 ? 'hidden' : ''}`}>
           <button
             onClick={() => {
               setResultOffset((previous) => Math.max(previous - 20, 0));
-              fetchMusicData();
+              fetchMusicData(keyword);
             }}
-            className="btn btn-outline-success w-1/2"
+            className="btn btn-outline-success w-1/2 flex items-center justify-center"
             disabled={resultOffset === 0}
           >
-            Previous Page: {resultOffset / 20}
+            <FaArrowLeft /> {/* Left arrow icon */}
+            <span className="ml-2">Previous</span>
           </button>
           <button
             onClick={() => {
               setResultOffset((previous) => previous + 20);
-              fetchMusicData();
+              fetchMusicData(keyword);
             }}
-            className="btn btn-outline-success w-1/2"
+            className="btn btn-outline-success w-1/2 flex items-center justify-center"
           >
-            Next Page: {resultOffset / 20 + 2}
+            <FaArrowRight /> {/* Right arrow icon */}
+            <span className="ml-2">Next</span>
           </button>
         </div>
 
@@ -143,9 +164,9 @@ function MusicPlayer() {
         <div className="text-center py-5">
           <h1>
             <i className="bi bi-music-note-list mx-3"></i>
-           FitSocially
+            FitSocially
           </h1>
-          <h3 className="py-5">Discover music in 30 seconds</h3>
+
           <div>
             <a
               target="_blank"
@@ -153,20 +174,10 @@ function MusicPlayer() {
               className="btn btn-outline-dark"
               href="https://spotify.com"
             >
-              <i className="bi bi-github mx-2"></i>©SPOTIFY
+              <i className="bi bi-github mx-2 "></i>©SPOTIFY
             </a>
           </div>
         </div>
-      </div>
-
-      <div
-        className="modal fade position-absolute"
-        id="exampleModal"
-        tabIndex={-1}
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <CreatePlaylist />
       </div>
     </>
   );

@@ -41,7 +41,7 @@ const LandingPage = () => {
           <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="/aboutUs">
             About
           </Link>
-          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="#contact">
+          <Link className="text-sm font-medium hover:text-blue-600 dark:hover:text-blue-400 hover:underline underline-offset-4" to="https://github.com/Pushkkaarr/FitSocially---Fitness-Tracker.git/">
             Contact
           </Link>
         </nav>

@@ -17,7 +17,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
           <Link className="text-white text-xl flex items-center" to="/">
             <i className="bi bi-music-note-list mx-3"></i> FitSocially
           </Link>
-          <div>
+          {/* <div>
             <button
               type="button"
               className="bg-gray-600 text-white text-sm px-3 py-1 rounded-md mx-1"
@@ -34,7 +34,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             >
               <i className="bi bi-heart-fill"></i> {likedMusic.length}
             </button>
-          </div>
+          </div> */}
 
           <div className="flex items-center space-x-2">
             <input
@@ -49,7 +49,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             <button
               onClick={() => {
                 setResultOffset(0);
-                fetchMusicData();
+                fetchMusicData(keyword);
               }}
               className="bg-green-500 text-white py-2 px-4 rounded-md transition duration-200 hover:bg-green-600"
             >
@@ -59,15 +59,15 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
         </div>
       </nav>
 
-      {/* Pinned Music Modal */}
+      {/* Pinned Music Modal
       <div
         className="modal fade"
         id="exampleModal"
         tabIndex={-1}
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
-      >
-        <div className="modal-dialog modal-xl">
+      > */}
+        {/* <div className="modal-dialog modal-xl">
           <div className="modal-content">
             <div className="modal-header">
               <h1 className="modal-title text-lg font-semibold" id="exampleModalLabel">
@@ -84,10 +84,10 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
               <PinnedMusic />
             </div>
           </div>
-        </div>
-      </div>
+        </div> */}
+      {/* </div> */}
 
-      {/* Liked Music Modal */}
+      {/* Liked Music Modal
       <div
         className="modal fade"
         id="likedMusicModal"
@@ -113,7 +113,7 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </>
   );
 };

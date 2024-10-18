@@ -68,7 +68,7 @@ const AppRoutes = () => {
       <Route path='/profile/:id' element={<MainLayout><Profile/></MainLayout>}/>
       <Route path='/Navigation' element={<NavigationBar/>}/>
       <Route path='/chatBot' element={<MainLayout><ChatBot/></MainLayout>}/>
-      <Route path='/aboutUs' element={<MainLayout><AboutUs/></MainLayout>}/>
+      <Route path='/aboutUs' element={<AboutUs/>}/>
       <Route path='/music' element={<MainLayout><MusicPlayer/></MainLayout>}/>
     </Routes>
   );
