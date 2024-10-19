@@ -54,7 +54,7 @@ export default function CheckPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-400 to-blue-600 p-4 font-cambria">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-red-900 p-4 font-cambria">
       <div className="absolute top-4 left-4">
         <Link to="/email">
           <div className="bg-white bg-opacity-30 backdrop-blur-lg rounded-full p-2 flex items-center shadow-lg hover:bg-opacity-40 transition">
@@ -100,11 +100,11 @@ export default function CheckPasswordPage() {
               Login
             </button>
           </form>
-          <p className="mt-6 text-center text-sm text-white">
+          {/* <p className="mt-6 text-center text-sm text-white">
             <Link to="/forgot-password" className="font-medium text-blue-200 hover:text-blue-100">
               Forgot password?
             </Link>
-          </p>
+          </p> */}
         </div>
         <div className="md:w-1/2 relative overflow-hidden">
           <img

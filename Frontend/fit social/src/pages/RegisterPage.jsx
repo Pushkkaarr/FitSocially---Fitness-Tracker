@@ -84,7 +84,7 @@ const RegisterPage = () => {
 
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-400 to-blue-600 p-4 font-cambria">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-700 to-red-900 p-4 font-cambria">
       <div className="absolute top-4 left-4">
         <Link to="/email">
           <div className="bg-white bg-opacity-30 backdrop-blur-lg rounded-full p-2 flex items-center shadow-lg hover:bg-opacity-40 transition">
@@ -193,9 +193,9 @@ const RegisterPage = () => {
           <img
             src="https://247fitness.co/public/uploads/blog-image/1512426536.jpg"
             alt="Fitness"
-            className="absolute inset-0 w-full h-full object-cover"
+            className="opacity-75 absolute inset-0 w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-sky-400 to-blue-600 opacity-75"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-amber-400 to-blue-600 opacity-65"></div>
           <div className="absolute inset-0 flex items-center justify-center">
             <h3 className="text-4xl font-bold text-white text-center">
               Join the<br />Fitness Community

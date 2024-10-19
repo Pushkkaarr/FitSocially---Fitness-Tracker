@@ -30,7 +30,7 @@ export default function CheckEmailPage() {
   }
 
   return (
-    <div className="font-cambria min-h-screen flex items-center justify-center bg-gradient-to-r from-sky-400 to-blue-600 p-4">
+    <div className="font-cambria min-h-screen flex items-center justify-center bg-gradient-to-r from-red-900 to-blue-900 p-4">
       <div className="absolute top-4 left-4">
         <Link to="/">
           <div className="bg-white bg-opacity-30 backdrop-blur-lg rounded-full p-2 flex items-center shadow-lg hover:bg-opacity-40 transition">
