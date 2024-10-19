@@ -1,6 +1,8 @@
 import axios from "axios";
 import dotenv from "dotenv";
 import User from "../models/userSchema.js";
+import moment from "moment"
+import DailyMealTracker from "../models/mealschema.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getUserDetailsFromToken from "../helpers/getUserDetailsFromToken.js";
@@ -524,5 +526,104 @@ export const chatBot = async (req, res) => {
   } catch (error) {
     console.error("Error details:", error.response ? error.response.data : error.message);
     res.status(500).json({ error: error.response ? error.response.data : 'Failed to connect to chatbot API' });
+  }
+};
+
+
+export const MealTracker = async (req, res) => {
+  try {
+    const { userId, mealType, foodItem } = req.query;
+
+    // Validate input
+    if (!foodItem || !mealType || !userId) {
+      return res.status(400).json({ error: 'User ID, Meal type, and Food item are required' });
+    }
+
+    // Edamam API URL with parameters
+    const edamamURL = `https://api.edamam.com/api/nutrition-data?app_id=${process.env.EDAMAM_APP_ID}&app_key=${process.env.EDAMAM_APP_KEY}&nutrition-type=cooking&ingr=${encodeURIComponent(foodItem)}`;
+
+    // Fetch calories information from Edamam API
+    const response = await axios.get(edamamURL);
+    const calories = response.data.calories;
+
+    // Find the user's meal tracker for today
+    let todayTracker = await DailyMealTracker.findOne({ userId, date: new Date().setHours(0, 0, 0, 0) });
+
+    // If no tracker exists for today, create one
+    if (!todayTracker) {
+      todayTracker = new DailyMealTracker({
+        userId,
+        date: new Date().setHours(0, 0, 0, 0),
+        meals: {
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+          snacks: [],
+        },
+        totalDailyCalories: 0,
+      });
+    }
+
+    // Add the food item to the specified meal
+    const meal = todayTracker.meals[mealType];
+    meal.push({
+      mealType, // explicitly set mealType here
+      foodItems: [{ name: foodItem, calories }],
+      totalCalories: calories,
+    });
+
+    // Update total daily calories
+    todayTracker.totalDailyCalories += calories;
+
+    // Save the updated tracker
+    await todayTracker.save();
+
+    // Return all meals for today
+    res.json({
+      message: `${foodItem} added to ${mealType}`,
+      meals: todayTracker.meals, // All meals for the day
+      totalDailyCalories: todayTracker.totalDailyCalories, // Total calories for the day
+    });
+    console.log( todayTracker.totalDailyCalories);
+    console.log( todayTracker.meals);
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch calorie information' });
+  }
+};
+
+
+
+export const mealfetch = async (req, res) => {
+  const { userId } = req.query; // Change to req.query
+
+  try {
+    const todayStart = moment.utc().startOf('day').toDate();
+    const todayEnd = moment.utc().endOf('day').toDate();
+
+    const meals = await DailyMealTracker.find({
+      userId,
+      date: {
+        $gte: todayStart,
+        $lt: todayEnd,
+      },
+    });
+
+    if (!meals || meals.length === 0) {
+      return res.status(200).json({ meals: [] });
+    }
+
+    const formattedMeals = meals.map(meal => ({
+      id: meal._id,
+      date: meal.date,
+      totalDailyCalories: meal.totalDailyCalories,
+      meals: meal.meals,
+    }));
+
+    return res.status(200).json({ meals: formattedMeals });
+  } catch (error) {
+    console.error('Error fetching meals:', error);
+    return res.status(500).json({ message: 'Internal server error' });
   }
 };
