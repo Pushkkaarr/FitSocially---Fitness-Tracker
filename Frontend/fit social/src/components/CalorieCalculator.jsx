@@ -68,7 +68,7 @@ const CalorieCalculator = () => {
   return (
     <div className="font-cambria max-w-3xl mx-auto p-6 bg-gradient-to-r from-sky-400 to-blue-600 shadow-lg rounded-lg border border-blue-800">
       <h2 className="text-3xl font-bold text-center mb-6 text-white font-cambria">
-        Daily Calorie Calculator
+       2. Daily Calorie Calculator
       </h2>
   
       <div className="flex flex-col md:flex-row">
@@ -195,7 +195,7 @@ const CalorieCalculator = () => {
         </form>
   
         {/* Output Section */}
-        <div className={`flex-space-y-3 transition-all duration-300 ${result ? "mt-0" : "mt-4"}`}>
+        <div className={`pl-3 position-centre pt-8 flex-space-y-3 transition-all duration-300 ${result ? "mt-0" : "mt-4"}`}>
           {result && (
             <div className="flex-space-y-6 mt-8 p-6 bg-white bg-opacity-60 rounded-lg">
               <h3 className="text-2xl font-bold mb-4 text-indigo-600">Results</h3>

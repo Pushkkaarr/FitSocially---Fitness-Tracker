@@ -61,20 +61,21 @@ const DietPlan = () => {
   };
 
   return (
-    <div className="flex-space-y-6 items-center justify-center">
-      <div className="max-w-full mx-auto p-6 bg-gradient-to-r from-sky-400 to-blue-600 rounded-lg shadow-lg">
+    <div className="flex flex-col items-center justify-center min-h-screen">
+      <div className="min-h-screen max-w-full w-screen mx-4 p-6 bg-gradient-to-r from-sky-400 to-blue-600 rounded-lg shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-6 text-white font-cambria">
-          Generate Your Diet Plan
+         1. Generate Your Diet Plan
         </h1>
 
-        <div className="flex-space-y-6   flex-col md:flex-row items-center justify-center h-full">
-  <div className="mb-4 md:mb-0 flex justify-center">
-    <form
-      onSubmit={handleSubmit}
-      id="form1"
-      className="space-y-4 justify-center bg-white bg-opacity-70 rounded-lg p-6 shadow-lg"
-      style={{ fontFamily: 'Cambria, serif' }}
-    >
+        <div className="flex flex-col md:flex-row items-stretch  space-y-6 md:space-y-0 md:space-x-6">
+          {/* Form Component */}
+          <div className="flex items-center justify-center w-full ">
+            <form
+              onSubmit={handleSubmit}
+              id="form1"
+              className="space-y-4  bg-white min-h-[500px] min-w-[200px] bg-opacity-70  rounded-lg p-6 shadow-lg"
+              style={{ fontFamily: 'Cambria, serif' }}
+            >
               {/* Time Frame */}
               <div className="mb-4">
                 <label className="block text-gray-700 font-bold mb-2">
@@ -164,7 +165,7 @@ const DietPlan = () => {
           </div>
 
           {/* Display Diet Plan Output */}
-          <div className="w-full md:w-1/2 pl-4">
+          <div className="w-full  pl-4">
             {error && <p className="text-red-500 text-center mt-4">{error}</p>}
             {dietPlan && (
               <div className="mt-8 p-6 bg-white bg-opacity-60 backdrop-blur-lg rounded-lg shadow-lg font-cambria">
