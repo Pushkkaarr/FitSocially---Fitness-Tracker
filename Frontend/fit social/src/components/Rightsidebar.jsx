@@ -13,8 +13,8 @@ const Rightsidebar = ({ otheruser }) => {
   );
 
   return (
-    <div className="w-[25%]">
-      <div className="flex items-center p-2 bg-gray-100 rounded-full outline-none w-full">
+    <div className="w-[25%] pl-6">
+      <div className="flex items-center p-2 bg-gray-100 rounded-full outline-none w-full pl-3">
         <CiSearch size="20px" />
         <input
           type="text"

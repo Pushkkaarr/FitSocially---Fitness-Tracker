@@ -14,12 +14,16 @@ const Navbar = ({ keyword, handleKeyPress, setKeyword, fetchMusicData }) => {
     <>
       <nav className="bg-gray-800 sticky top-0 z-50">
       <div className="container mx-auto flex items-center justify-between p-4">
-    <Link
-      className="text-white text-2xl font-bold border-2 border-white py-2 px-4 rounded-md font-cambria"
-      to="/"
-    >
-      <i className="bi bi-music-note-list mx-3"></i> FitSocially
-    </Link>
+      <Link
+  className="font-cambria flex items-center py-2 px-4 text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 rounded-md backdrop-blur-md border-2 border-red-800 border-opacity-70 border-y-4 border-x-4 pulse transition-transform duration-300 ease-in-out"
+  to="/"
+>
+  <i className="bi bi-music-note-list mx-3"></i> FitSocially
+</Link>
+
+
+
+
           {/* <div>
             <button
               type="button"

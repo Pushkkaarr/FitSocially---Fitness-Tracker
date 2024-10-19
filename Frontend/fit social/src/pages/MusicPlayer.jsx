@@ -1,12 +1,12 @@
-import "../../src/MusicPlayer.css"; // Update the CSS file as needed
+import "../../src/MusicPlayer.css";
 import { useContext, useEffect, useState } from "react";
 import Card from "../components/Music/Card";
 import Navbar from "../components/Music/Navbar";
 import { MusicContext } from "../helpers/Context";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa"; // Import arrow icons
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 function MusicPlayer() {
-  const [keyword, setKeyword] = useState("Workout Music"); // Start with "Fitness Gym"
+  const [keyword, setKeyword] = useState("Workout Songs");
   const [message, setMessage] = useState("");
   const [tracks, setTracks] = useState([]);
   const [token, setToken] = useState(null);
@@ -19,6 +19,7 @@ function MusicPlayer() {
   const setResultOffset = musicContext.setResultOffset;
 
   const fetchMusicData = async (searchKeyword = "") => {
+    if (!token) return; // Check if token is available
     setTracks([]);
     window.scrollTo(0, 0);
     setIsLoading(true);
@@ -33,7 +34,7 @@ function MusicPlayer() {
       );
 
       if (!response.ok) {
-        throw new Error("Failed to fetch music data");
+        throw new Error("Waiting For User Input in Search");
       }
 
       const jsonData = await response.json();
@@ -45,40 +46,9 @@ function MusicPlayer() {
     }
   };
 
-  const fetchTrendingSongs = async () => {
-    setIsLoading(true);
-    try {
-      const response = await fetch(
-        `https://api.spotify.com/v1/tracks?limit=20`, // Adjust if needed
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch trending songs");
-      }
-
-      const jsonData = await response.json();
-      setTracks(jsonData.tracks);
-    } catch (error) {
-      setMessage(error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      setResultOffset(0);
-      fetchMusicData(keyword);
-    }
-  };
-
   useEffect(() => {
     const fetchToken = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch("https://accounts.spotify.com/api/token", {
           method: "POST",
@@ -94,7 +64,6 @@ function MusicPlayer() {
 
         const jsonData = await response.json();
         setToken(jsonData.access_token);
-        fetchMusicData("Fitness Gym"); // Fetch music data for "Fitness Gym" on load
       } catch (error) {
         setMessage(error.message);
       } finally {
@@ -107,12 +76,22 @@ function MusicPlayer() {
     setPinnedMusic(JSON.parse(localStorage.getItem("pinnedMusic")));
   }, [setIsLoading, setLikedMusic, setPinnedMusic]);
 
+  useEffect(() => {
+    if (token) {
+      fetchMusicData(keyword); // Fetch music data for the initial keyword
+    }
+  }, [token, keyword, resultOffset]); // Add resultOffset to re-fetch when changing pages
+
   return (
     <>
       <Navbar
         keyword={keyword}
         setKeyword={setKeyword}
-        handleKeyPress={handleKeyPress}
+        handleKeyPress={(event) => {
+          if (event.key === "Enter") {
+            setResultOffset(0);
+          }
+        }}
         fetchMusicData={fetchMusicData}
       />
 
@@ -140,7 +119,7 @@ function MusicPlayer() {
             className="btn btn-outline-success w-1/2 flex items-center justify-center"
             disabled={resultOffset === 0}
           >
-            <FaArrowLeft /> {/* Left arrow icon */}
+            <FaArrowLeft />
             <span className="ml-2">Previous</span>
           </button>
           <button
@@ -150,7 +129,7 @@ function MusicPlayer() {
             }}
             className="btn btn-outline-success w-1/2 flex items-center justify-center"
           >
-            <FaArrowRight /> {/* Right arrow icon */}
+            <FaArrowRight />
             <span className="ml-2">Next</span>
           </button>
         </div>
@@ -163,7 +142,7 @@ function MusicPlayer() {
 
         <div className="text-center py-5">
           <h1>
-            <i className="bi bi-music-note-list mx-3"></i>
+            <i className="bi bi-music-note-list mx-3 size-8"></i>
             FitSocially
           </h1>
 

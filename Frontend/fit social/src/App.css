@@ -7,3 +7,20 @@
   .scrollbar::-webkit-scrollbar-thumb{
     @apply bg-slate-200 rounded-full
   }
+  .pulse {
+    animation: pulse 3s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      transform: scale(1);
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5);
+    }
+    50% {
+      transform: scale(1.05);
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.9), 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+  }
+  
+  
+  

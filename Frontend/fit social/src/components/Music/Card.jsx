@@ -59,20 +59,20 @@ function Card({ element }) {
           <h5 className="text-lg font-semibold flex justify-between items-center">
             {element.name}
             <div className="flex items-center">
-              <button onClick={handlePin} className="text-gray-800 mx-1">
+              {/* <button onClick={handlePin} className="text-gray-800 mx-1">
                 {pinnedMusic.some((item) => item.id === element.id) ? (
                   <i className="bi bi-pin-angle-fill"></i>
                 ) : (
                   <i className="bi bi-pin-angle"></i>
                 )}
-              </button>
-              <button onClick={handleLike} className="text-gray-800">
+              </button> 
+               <button onClick={handleLike} className="text-gray-800">
                 {likedMusic.some((item) => item.id === element.id) ? (
                   <i className="bi bi-heart-fill text-red-500"></i>
                 ) : (
                   <i className="bi bi-heart"></i>
                 )}
-              </button>
+              </button> */}
             </div>
           </h5>
           <p className="text-gray-600">Artist: {element.album.artists[0].name}</p>

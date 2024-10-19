@@ -45,7 +45,7 @@ const DietPage = () => (
 const MainLayout = ({ children }) => (
   <div className="flex h-screen">
   <NavigationBar /> {/* Left Sidebar */}
-  <div className="flex-1 mx-5 transition-all duration-300">
+  <div className="flex-1 mx-0 transition-all duration-300 overflow-y-auto">
     {children} {/* Right Main Content */}
   </div>
 </div>
