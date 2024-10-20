@@ -21,12 +21,12 @@ export default function Dashboard() {
   const { user } = useSelector((store) => store.user);
 
   const fitnessData = {
-    steps: 8234,
-    stepsGoal: 10000,
-    calories: 1840,
+    steps: 500,
+    stepsGoal: 8000,
+    calories: 1200,
     caloriesGoal: 2500,
-    activeMinutes: 65,
-    activeMinutesGoal: 60,
+    activeMinutes: 40,
+    activeMinutesGoal: 120,
     sleep: 7.5,
     sleepGoal: 8,
     weeklyActivity: [65, 70, 80, 75, 60, 70, 75],
@@ -43,9 +43,45 @@ export default function Dashboard() {
   };
 
   const [totalCalories, setTotalCalories] = useState(0);
+  const [sleepHours, setSleepHours] = useState(fitnessData.sleep);
+  const [steps, setSteps] = useState(fitnessData.steps);
+  const [calories, setCalories] = useState(fitnessData.calories);
+  const [activeMinutes, setActiveMinutes] = useState(fitnessData.activeMinutes);
 
   const handleTotalCaloriesUpdate = (calories) => {
     setTotalCalories(calories);
+  };
+
+  const increaseSleep = () => {
+    setSleepHours(prev => Math.min(prev + 1, fitnessData.sleepGoal));
+  };
+
+  const decreaseSleep = () => {
+    setSleepHours(prev => Math.max(prev - 1, 0));
+  };
+
+  const increaseSteps = () => {
+    setSteps(prev => Math.min(prev + 100, fitnessData.stepsGoal));
+  };
+
+  const decreaseSteps = () => {
+    setSteps(prev => Math.max(prev - 100, 0));
+  };
+
+  const increaseCalories = () => {
+    setCalories(prev => Math.min(prev + 50, fitnessData.caloriesGoal));
+  };
+
+  const decreaseCalories = () => {
+    setCalories(prev => Math.max(prev - 50, 0));
+  };
+
+  const increaseActiveMinutes = () => {
+    setActiveMinutes(prev => Math.min(prev + 10, fitnessData.activeMinutesGoal));
+  };
+
+  const decreaseActiveMinutes = () => {
+    setActiveMinutes(prev => Math.max(prev - 10, 0));
   };
 
   // Hardcoded data for line chart (calories burned over a week)
@@ -85,10 +121,46 @@ export default function Dashboard() {
     <div className="container p-8 max-w-full bg-gradient-to-r from-sky-400 to-blue-900 min-h-screen font-cambria">
       <h1 className="text-3xl font-bold mb-6 text-white border-solid border-spacing-5 border-red-950 p-6 rounded-lg transition-transform transform hover:scale-85 hover:bg-gradient-to-r from-blue-400 to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-800">Fitness Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <MetricCard title="Steps" icon={<Activity />} current={fitnessData.steps} goal={fitnessData.stepsGoal} />
-        <MetricCard title="Calories" icon={<Flame />} current={totalCalories} goal={user.targetCalories} unit="kcal" />
-        <MetricCard title="Active Minutes" icon={<Activity />} current={fitnessData.activeMinutes} goal={fitnessData.activeMinutesGoal} unit="min" />
-        <MetricCard title="Sleep" icon={<Moon />} current={fitnessData.sleep} goal={fitnessData.sleepGoal} unit="hours" />
+        <MetricCard 
+          title="Steps" 
+          icon={<Activity />} 
+          current={steps} 
+          goal={fitnessData.stepsGoal} 
+          unit="steps"
+          controls={
+            <div className="flex space-x-2 mt-2">
+              <button onClick={decreaseSteps} className="bg-red-500 text-white px-2 rounded">-100</button>
+              <button onClick={increaseSteps} className="bg-green-500 text-white px-2 rounded">+100</button>
+            </div>
+          }
+        />
+        <MetricCard title="Calories" icon={<Flame />} current={totalCalories} goal={fitnessData.caloriesGoal  } unit="kcal" />
+        <MetricCard 
+          title="Active Minutes" 
+          icon={<Activity />} 
+          current={activeMinutes} 
+          goal={fitnessData.activeMinutesGoal} 
+          unit="min"
+          controls={
+            <div className="flex space-x-2 mt-2">
+              <button onClick={decreaseActiveMinutes} className="bg-red-500 text-white px-2 rounded">-10</button>
+              <button onClick={increaseActiveMinutes} className="bg-green-500 text-white px-2 rounded">+10</button>
+            </div>
+          }
+        />
+        <MetricCard 
+          title="Sleep" 
+          icon={<Moon />} 
+          current={sleepHours} 
+          goal={fitnessData.sleepGoal} 
+          unit="hours" 
+          controls={
+            <div className="flex space-x-2 mt-2">
+              <button onClick={decreaseSleep} className="bg-red-500 text-white px-2 rounded">-1</button>
+              <button onClick={increaseSleep} className="bg-green-500 text-white px-2 rounded">+1</button>
+            </div>
+          }
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
@@ -102,10 +174,9 @@ export default function Dashboard() {
           </div>
         </div>
         <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
-  <h2 className="text-xl font-semibold mb-4">Calories Burned</h2>
-  <CaloriesBurnedPieChart workouts={fitnessData.completedWorkouts} />
-</div>
-
+          <h2 className="text-xl font-semibold mb-4">Calories Burned</h2>
+          <CaloriesBurnedPieChart workouts={fitnessData.completedWorkouts} />
+        </div>
       </div>
 
       <MealTracker userId={user._id} onTotalCaloriesUpdate={handleTotalCaloriesUpdate} />
@@ -124,13 +195,11 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
-
-     
     </div>
   );
 }
 
-function MetricCard({ title, icon, current, goal, unit }) {
+function MetricCard({ title, icon, current, goal, unit, controls }) {
   const progress = Math.min((current / goal) * 100, 100);
   return (
     <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md flex flex-col items-center">
@@ -144,6 +213,7 @@ function MetricCard({ title, icon, current, goal, unit }) {
       <div className="mt-2 text-sm text-gray-600">
         {current}/{goal} {unit}
       </div>
+      {controls}
     </div>
   );
 }
