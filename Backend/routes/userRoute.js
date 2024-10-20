@@ -42,7 +42,7 @@ router.route("/unfollow/:id").post(unfollow);
 router.route("/otheruser/:id").get(isAuthenticated, getOtherUsers);
 router.route("/updateCalories").post(targetCalories);
 router.route("/chatbot").post(chatBot);
-router.route("/mealtracker").get(MealTracker);
+router.route("/mealtracker").post(MealTracker);
 router.route("/mealfetch").get(mealfetch)
 
 export default router;

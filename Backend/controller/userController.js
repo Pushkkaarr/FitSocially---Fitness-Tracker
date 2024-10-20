@@ -6,6 +6,9 @@ import DailyMealTracker from "../models/mealschema.js";
 import bcryptjs from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getUserDetailsFromToken from "../helpers/getUserDetailsFromToken.js";
+import Meal from '../models/mealschema.js';  // Import the Meal model
+import mongoose from "mongoose";
+
 
 dotenv.config();
 
@@ -532,7 +535,7 @@ export const chatBot = async (req, res) => {
 
 export const MealTracker = async (req, res) => {
   try {
-    const { userId, mealType, foodItem } = req.query;
+    const { userId, mealType, foodItem } = req.body;
 
     // Validate input
     if (!foodItem || !mealType || !userId) {
@@ -546,82 +549,78 @@ export const MealTracker = async (req, res) => {
     const response = await axios.get(edamamURL);
     const calories = response.data.calories;
 
-    // Find the user's meal tracker for today
-    let todayTracker = await DailyMealTracker.findOne({ userId, date: new Date().setHours(0, 0, 0, 0) });
-
-    // If no tracker exists for today, create one
-    if (!todayTracker) {
-      todayTracker = new DailyMealTracker({
-        userId,
-        date: new Date().setHours(0, 0, 0, 0),
-        meals: {
-          breakfast: [],
-          lunch: [],
-          dinner: [],
-          snacks: [],
-        },
-        totalDailyCalories: 0,
-      });
-    }
-
-    // Add the food item to the specified meal
-    const meal = todayTracker.meals[mealType];
-    meal.push({
-      mealType, // explicitly set mealType here
-      foodItems: [{ name: foodItem, calories }],
-      totalCalories: calories,
+    // Save meal data to the Meal schema
+    const newMeal = new Meal({
+      user: userId,
+      mealType,
+      foodItem,
+      calories,
+      createdAt: new Date(),
     });
 
-    // Update total daily calories
-    todayTracker.totalDailyCalories += calories;
+    // Save the new meal entry to the database
+    await newMeal.save();
 
-    // Save the updated tracker
-    await todayTracker.save();
-
-    // Return all meals for today
+    // Return the saved meal entry
     res.json({
       message: `${foodItem} added to ${mealType}`,
-      meals: todayTracker.meals, // All meals for the day
-      totalDailyCalories: todayTracker.totalDailyCalories, // Total calories for the day
+      meal: newMeal,  // Return the saved meal entry
     });
-    console.log( todayTracker.totalDailyCalories);
-    console.log( todayTracker.meals);
-    
+    console.log(newMeal);
+
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Failed to fetch calorie information' });
+    res.status(500).json({ error: 'Failed to fetch calorie information or save the meal' });
   }
 };
 
 
 
+
 export const mealfetch = async (req, res) => {
-  const { userId } = req.query; // Change to req.query
+  const { userId } = req.query; // Get userId from query string
+
+  // Check if userId is valid
+  if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(400).json({ message: 'Invalid user ID' });
+  }
 
   try {
+    // Define the start and end of the current day (UTC)
     const todayStart = moment.utc().startOf('day').toDate();
     const todayEnd = moment.utc().endOf('day').toDate();
 
-    const meals = await DailyMealTracker.find({
-      userId,
-      date: {
+    // Find meals for the user within the current day
+    const meals = await Meal.find({
+      user: userId, // Use the userId directly as it should be an ObjectId
+      createdAt: {
         $gte: todayStart,
         $lt: todayEnd,
       },
     });
 
+    // If no meals are found, return an empty array
     if (!meals || meals.length === 0) {
-      return res.status(200).json({ meals: [] });
+      return res.status(200).json({ meals: [], totalCalories: 0 });
     }
 
+    // Calculate the total calories for the day
+    const totalCalories = meals.reduce((total, meal) => total + meal.calories, 0);
+
+    // Format the meals data
     const formattedMeals = meals.map(meal => ({
       id: meal._id,
-      date: meal.date,
-      totalDailyCalories: meal.totalDailyCalories,
-      meals: meal.meals,
+      date: meal.createdAt,
+      mealType: meal.mealType,
+      foodItem: meal.foodItem,
+      calories: meal.calories,
     }));
 
-    return res.status(200).json({ meals: formattedMeals });
+    // Return the formatted meals and total calories
+    return res.status(200).json({
+      meals: formattedMeals,
+      totalCalories,
+    });
   } catch (error) {
     console.error('Error fetching meals:', error);
     return res.status(500).json({ message: 'Internal server error' });

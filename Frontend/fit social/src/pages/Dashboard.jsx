@@ -28,12 +28,18 @@ export default function Dashboard() {
     },
   };
 
+  const [totalCalories, setTotalCalories] = useState(0); // State to hold total calories
+
+  const handleTotalCaloriesUpdate = (calories) => {
+    setTotalCalories(calories); // Update total calories from MealTracker
+  };
+
   return (
     <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
       <h1 className="text-3xl font-bold mb-6">Fitness Dashboard</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <MetricCard title="Steps" icon={<Activity />} current={fitnessData.steps} goal={fitnessData.stepsGoal} />
-        <MetricCard title="Calories" icon={<Flame />} current={fitnessData.calories} goal={fitnessData.caloriesGoal} unit="kcal" />
+        <MetricCard title="Calories" icon={<Flame />} current={totalCalories} goal={user.targetCalories} unit="kcal" />
         <MetricCard title="Active Minutes" icon={<Activity />} current={fitnessData.activeMinutes} goal={fitnessData.activeMinutesGoal} unit="min" />
         <MetricCard title="Sleep" icon={<Moon />} current={fitnessData.sleep} goal={fitnessData.sleepGoal} unit="hours" />
       </div>
@@ -53,7 +59,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <MealTracker userId={user._id} />
+      <MealTracker userId={user._id} onTotalCaloriesUpdate={handleTotalCaloriesUpdate}/>
 
       <div className="bg-white p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-semibold mb-4">Workout Tracker</h2>

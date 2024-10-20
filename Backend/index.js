@@ -7,12 +7,14 @@ import cors from 'cors'
 import connectDB from './config/database.js'
 import { app, server } from './socket/index.js';
 import tweetRoute from './routes/tweetRoute.js'
+import bodyParser from 'body-parser';
+
 
 dotenv.config({ path: ".env" });
 
 //const app = express();
 const port = process.env.PORT;
-
+app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookiesParser())
 app.use('/uploads', express.static('uploads'));
