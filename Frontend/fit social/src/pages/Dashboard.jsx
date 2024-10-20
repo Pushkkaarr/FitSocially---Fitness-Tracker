@@ -35,9 +35,9 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="container mx-auto p-4 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Fitness Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+    <div className="container p-8 max-w-full bg-gradient-to-r from-sky-400 to-blue-900 min-h-screen font-cambria">
+      <h1 className="text-3xl font-bold mb-6 text-white border-solid border-spacing-5 border-red-950 p-6 rounded-lg transition-transform transform hover:scale-85 hover:bg-gradient-to-r from-blue-400 to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-800">Fitness Dashboard</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 ">
         <MetricCard title="Steps" icon={<Activity />} current={fitnessData.steps} goal={fitnessData.stepsGoal} />
         <MetricCard title="Calories" icon={<Flame />} current={totalCalories} goal={user.targetCalories} unit="kcal" />
         <MetricCard title="Active Minutes" icon={<Activity />} current={fitnessData.activeMinutes} goal={fitnessData.activeMinutesGoal} unit="min" />
@@ -45,7 +45,7 @@ export default function Dashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Weekly Activity</h2>
           <div className="flex items-end space-x-2 h-64">
             {fitnessData.weeklyActivity.map((activity, index) => (
@@ -53,7 +53,7 @@ export default function Dashboard() {
             ))}
           </div>
         </div>
-        <div className="bg-white p-6 rounded-lg shadow-md">
+        <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Calories Burned</h2>
           <CaloriesBurnedPieChart workouts={fitnessData.completedWorkouts} />
         </div>
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
       <MealTracker userId={user._id} onTotalCaloriesUpdate={handleTotalCaloriesUpdate}/>
 
-      <div className="bg-white p-6 rounded-lg shadow-md mb-8">
+      <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-semibold mb-4">Workout Tracker</h2>
         <div className="space-y-4">
           {fitnessData.completedWorkouts.map((workout, index) => (
@@ -82,7 +82,7 @@ export default function Dashboard() {
 function MetricCard({ title, icon, current, goal, unit }) {
   const progress = Math.min((current / goal) * 100, 100);
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
+    <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md flex flex-col items-center">
       <div className="flex items-center justify-between w-full">
         <h3 className="text-lg font-semibold">{title}</h3>
         <div>{icon}</div>

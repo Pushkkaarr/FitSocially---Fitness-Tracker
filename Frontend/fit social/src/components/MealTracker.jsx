@@ -83,7 +83,7 @@ function MealTracker({userId,onTotalCaloriesUpdate}) {
   const snackMeals = meals.filter(meal => meal.mealType === 'snack');
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Meal Calorie Calculator</h2>
         <p className="text-sm text-gray-600 mb-4">Calculate calories for your meals</p>
 
@@ -136,7 +136,7 @@ function MealTracker({userId,onTotalCaloriesUpdate}) {
           </div>
         )}        </div>
 
-      <div className="bg-white p-6 rounded-lg shadow-md">
+      <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
         <h2 className="text-xl font-semibold mb-4">Daily Meal Tracker</h2>
         <p className="text-sm text-gray-600 mb-4">Track your daily meals and calorie intake</p>
         <div className="space-y-4">
