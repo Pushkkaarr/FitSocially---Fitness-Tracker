@@ -198,7 +198,7 @@ function MealTracker({userId,onTotalCaloriesUpdate}) {
       </ul>
 
       {error && <p>{error}</p>}
-     <div className="mt-4 font-medium text-lg">
+     <div className="mt-4  text-xl font-bold">
         Total Calories: {totalCalories} kcal
       </div>
          

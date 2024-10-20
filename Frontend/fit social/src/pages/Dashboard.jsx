@@ -2,6 +2,20 @@ import React, { useState, useEffect, useRef } from "react";
 import { Activity, Flame, Moon, Dumbbell } from "lucide-react";
 import MealTracker from "../components/MealTracker";
 import { useSelector } from "react-redux";
+import { Line } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  LineElement,
+  PointElement,
+  LinearScale,
+  CategoryScale,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+
+// Register Chart.js components
+ChartJS.register(LineElement, PointElement, LinearScale, CategoryScale, Title, Tooltip, Legend);
 
 export default function Dashboard() {
   const { user } = useSelector((store) => store.user);
@@ -28,16 +42,49 @@ export default function Dashboard() {
     },
   };
 
-  const [totalCalories, setTotalCalories] = useState(0); // State to hold total calories
+  const [totalCalories, setTotalCalories] = useState(0);
 
   const handleTotalCaloriesUpdate = (calories) => {
-    setTotalCalories(calories); // Update total calories from MealTracker
+    setTotalCalories(calories);
+  };
+
+  // Hardcoded data for line chart (calories burned over a week)
+  const lineData = {
+    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    datasets: [
+      {
+        label: 'Calories Burned',
+        data: [300, 450, 500, 400, 350, 600, 700], // Example hardcoded data
+        fill: false,
+        backgroundColor: 'rgba(75,192,192,0.4)',
+        borderColor: 'rgba(75,192,192,1)',
+      },
+    ],
+  };
+
+  const lineOptions = {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Days',
+        },
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Calories',
+        },
+        beginAtZero: true,
+      },
+    },
   };
 
   return (
     <div className="container p-8 max-w-full bg-gradient-to-r from-sky-400 to-blue-900 min-h-screen font-cambria">
       <h1 className="text-3xl font-bold mb-6 text-white border-solid border-spacing-5 border-red-950 p-6 rounded-lg transition-transform transform hover:scale-85 hover:bg-gradient-to-r from-blue-400 to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-800">Fitness Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <MetricCard title="Steps" icon={<Activity />} current={fitnessData.steps} goal={fitnessData.stepsGoal} />
         <MetricCard title="Calories" icon={<Flame />} current={totalCalories} goal={user.targetCalories} unit="kcal" />
         <MetricCard title="Active Minutes" icon={<Activity />} current={fitnessData.activeMinutes} goal={fitnessData.activeMinutesGoal} unit="min" />
@@ -47,19 +94,21 @@ export default function Dashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
         <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-semibold mb-4">Weekly Activity</h2>
-          <div className="flex items-end space-x-2 h-64">
+          <Line data={lineData} options={lineOptions} />
+          <div className="flex items-end space-x-2 h-45">
             {fitnessData.weeklyActivity.map((activity, index) => (
               <div key={index} className="bg-blue-500 rounded-t w-1/7" style={{ height: `${activity}%` }}></div>
             ))}
           </div>
         </div>
         <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md">
-          <h2 className="text-xl font-semibold mb-4">Calories Burned</h2>
-          <CaloriesBurnedPieChart workouts={fitnessData.completedWorkouts} />
-        </div>
+  <h2 className="text-xl font-semibold mb-4">Calories Burned</h2>
+  <CaloriesBurnedPieChart workouts={fitnessData.completedWorkouts} />
+</div>
+
       </div>
 
-      <MealTracker userId={user._id} onTotalCaloriesUpdate={handleTotalCaloriesUpdate}/>
+      <MealTracker userId={user._id} onTotalCaloriesUpdate={handleTotalCaloriesUpdate} />
 
       <div className="bg-white bg-opacity-85 p-6 rounded-lg shadow-md mb-8">
         <h2 className="text-xl font-semibold mb-4">Workout Tracker</h2>
@@ -75,6 +124,8 @@ export default function Dashboard() {
           ))}
         </div>
       </div>
+
+     
     </div>
   );
 }
@@ -99,24 +150,48 @@ function MetricCard({ title, icon, current, goal, unit }) {
 
 function CaloriesBurnedPieChart({ workouts }) {
   const canvasRef = useRef(null);
+  const canvasWidth = 400;  // Width of the canvas
+  const canvasHeight = 400; // Height of the canvas
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
     const colors = ["#FF6384", "#36A2EB", "#FFCE56"];
     const totalCalories = workouts.reduce((sum, workout) => sum + workout.caloriesBurned, 0);
-    let startAngle = 0;
+    
+    // Clear the canvas before drawing
+    ctx.clearRect(0, 0, canvasWidth, canvasHeight);
 
+    let startAngle = 0;
     workouts.forEach((workout, index) => {
       const sliceAngle = (workout.caloriesBurned / totalCalories) * 2 * Math.PI;
       ctx.beginPath();
-      ctx.moveTo(100, 75); // Center of the canvas
-      ctx.arc(100, 75, 75, startAngle, startAngle + sliceAngle);
+      ctx.moveTo(canvasWidth / 2, canvasHeight / 2); // Center of the canvas
+      ctx.arc(canvasWidth / 2, canvasHeight / 2, Math.min(canvasWidth, canvasHeight) / 2 - 10, startAngle, startAngle + sliceAngle);
       ctx.closePath();
       ctx.fillStyle = colors[index % colors.length];
       ctx.fill();
+
+      // Set font size and style
+      ctx.fillStyle = "white"; // Change text color to white
+      ctx.font = "bold 16px Arial"; // Increase font size here
+
+      // Calculate label position
+      const labelX = canvasWidth / 2 + ((Math.min(canvasWidth, canvasHeight) / 2 - 10) / 2) * Math.cos(startAngle + sliceAngle / 2);
+      const labelY = canvasHeight / 2 + ((Math.min(canvasWidth, canvasHeight) / 2 - 10) / 2) * Math.sin(startAngle + sliceAngle / 2);
+      ctx.fillText(`${workout.type}: ${workout.caloriesBurned}`, labelX - 30, labelY); // Offset for better positioning
+
       startAngle += sliceAngle;
     });
   }, [workouts]);
 
-  return <canvas ref={canvasRef} width={200} height={150}></canvas>;
+  return (
+    <div className="flex justify-center">
+      <canvas 
+        ref={canvasRef} 
+        width={canvasWidth} 
+        height={canvasHeight} 
+        style={{ display: 'block' }} // Ensure display is block
+      ></canvas>
+    </div>
+  );
 }
