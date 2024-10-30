@@ -8,7 +8,9 @@ import jwt from "jsonwebtoken";
 import getUserDetailsFromToken from "../helpers/getUserDetailsFromToken.js";
 import Meal from '../models/mealschema.js';  // Import the Meal model
 import mongoose from "mongoose";
+import { GoogleGenerativeAI } from '@google/generative-ai';
 
+import OpenAI from "openai";
 
 dotenv.config();
 
@@ -624,5 +626,142 @@ export const mealfetch = async (req, res) => {
   } catch (error) {
     console.error('Error fetching meals:', error);
     return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export const fetchDataController = async (req, res) => {
+  if (!req.body?.formData) {
+    return res.status(400).json({
+      success: false,
+      error: 'Missing required formData in request body'
+    });
+  }
+
+  let genAI;
+  try {
+    if (!process.env.GEMINI_API_KEY) {
+      throw new Error('Gemini API key not configured');
+    }
+    genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+  } catch (error) {
+    console.error('Gemini initialization error:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to initialize Gemini client'
+    });
+  }
+
+  try {
+    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    const prompt = `You are a fitness plan generator API that ONLY returns valid JSON.
+Generate a fitness plan based on these parameters: ${JSON.stringify(req.body.formData)}.
+The response MUST be a valid JSON object with this exact structure:
+{
+  "Workout_Plan_Description": "<200 char max description>",
+  "Months": [
+    {
+      "plan_for_each_week_in_the_month": {
+        "days": [
+          {
+            "exercises": [
+              {
+                "name": "<exercise name>",
+                "reps": "<number of reps>",
+                "sets": "<number of sets>",
+                "target_muscle": "<muscle group>"
+              }
+            ],
+            "duration": <number in minutes>
+          }
+        ]
+      }
+    }
+  ]
+}
+Return ONLY the JSON object, no additional text.`;
+
+    const result = await model.generateContent({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: {
+        temperature: 0.1,
+        topK: 1,
+        topP: 0.1,
+        maxOutputTokens: 1000,
+      }
+    });
+
+    const response = await result.response;
+    const responseText = response.text().trim();
+
+    // Ensure response is valid JSON
+    const cleanedResponse = responseText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .replace(/^[^{]*/, '')
+      .replace(/[^}]*$/, '')
+      .trim();
+
+    // Check for balanced brackets
+    const openBraces = (cleanedResponse.match(/{/g) || []).length;
+    const closeBraces = (cleanedResponse.match(/}/g) || []).length;
+    const openBrackets = (cleanedResponse.match(/\[/g) || []).length;
+    const closeBrackets = (cleanedResponse.match(/]/g) || []).length;
+
+    if (openBraces !== closeBraces || openBrackets !== closeBrackets) {
+      console.error('Unbalanced JSON response:', cleanedResponse);
+      return res.status(500).json({
+        success: false,
+        error: 'Unbalanced JSON response from Gemini API',
+        details: cleanedResponse,
+      });
+    }
+
+    // Attempt JSON parsing
+    let data;
+    try {
+      data = JSON.parse(cleanedResponse);
+    } catch (parseError) {
+      console.error('JSON Parse Error:', parseError);
+      return res.status(500).json({
+        success: false,
+        error: 'Failed to parse Gemini API response',
+        details: {
+          message: parseError.message,
+          response: cleanedResponse,
+        },
+      });
+    }
+
+    // Validate structure
+    if (!data.Workout_Plan_Description || !Array.isArray(data.Months)) {
+      return res.status(500).json({
+        success: false,
+        error: 'Invalid response structure from Gemini API',
+        details: {
+          response: cleanedResponse,
+        },
+      });
+    }
+
+    if (data.Workout_Plan_Description.length > 200) {
+      data.Workout_Plan_Description = data.Workout_Plan_Description.substring(0, 200);
+    }
+
+    res.setHeader('Cache-Control', 'private, max-age=3600');
+    return res.status(200).json({
+      success: true,
+      data
+    });
+
+  } catch (error) {
+    console.error('Gemini API error:', error);
+    return res.status(500).json({
+      success: false,
+      error: error.message || 'Failed to generate workout plan',
+      details: process.env.NODE_ENV === 'development' ? {
+        stack: error.stack,
+        message: error.message
+      } : undefined
+    });
   }
 };

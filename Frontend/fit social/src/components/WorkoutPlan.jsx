@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { FaDumbbell, FaCalendarAlt, FaUserPlus, FaWeightHanging, FaRunning } from "react-icons/fa";
 import { FaCalendarWeek } from "react-icons/fa";
@@ -23,7 +23,7 @@ const WorkoutPlan = () => {
     plan_duration_weeks: 4,
   });
 
-  const [workoutPlan, setWorkoutPlan] = useState(null);
+  const [workoutPlan, setWorkoutPlan] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -70,16 +70,28 @@ const WorkoutPlan = () => {
     e.preventDefault();
 
     try {
+      console.log(formData);
+      
       const response = await axios.post(
-        "http://localhost:3000/api/user/workOutPlan",
-        formData
+        "http://localhost:3000/api/user/workout",
+        { formData },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
       ); // API call
       setWorkoutPlan(response.data);
+      console.log(response.data.data);
+      
+      console.log(workoutPlan);
+      
     } catch (error) {
       console.error(error.message);
       alert("Failed to generate workout plan. Please try again.");
     }
   };
+  useEffect (() => {
+    console.log("Workout plan updated:", workoutPlan);
+  }, [workoutPlan]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen font-cambria">
@@ -249,35 +261,38 @@ const WorkoutPlan = () => {
             </button>
           </form>
 
-          {/* Output Section */}
-          <div className="flex-1 ml-6">
-            {workoutPlan && (
-              <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md border border-gray-300">
-                <h2 className="text-2xl font-bold mb-4 text-indigo-600">Your Workout Plan</h2>
-                <p className="mb-2">
-                  <strong>Goal:</strong> {workoutPlan.plan.goal}
-                </p>
-                <p className="mb-2">
-                  <strong>Fitness Level:</strong> {workoutPlan.plan.fitness_level}
-                </p>
-                <p className="mb-2">
-                  <strong>Total Weeks:</strong> {workoutPlan.plan.plan_duration_weeks}
-                </p>
-                <p className="mb-2">
-                  <strong>Schedule:</strong> {workoutPlan.plan.schedule.days_per_week} days per week, {workoutPlan.plan.schedule.session_duration} minutes per session
-                </p>
+         {/* Output Section */}
+<div className="flex-1 ml-6">
+  {workoutPlan && workoutPlan.success && workoutPlan.data && (
+    <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-md border border-gray-300">
+      <h2 className="text-2xl font-bold mb-4 text-indigo-600">Your Workout Plan</h2>
+      <p className="mb-2">
+        <strong>Description:</strong> {workoutPlan.data.Workout_Plan_Description}
+      </p>
 
-                <h3 className="font-bold mb-2">Exercises:</h3>
-                <ul className="list-disc list-inside">
-                  {workoutPlan.plan.exercises.map((exercise, index) => (
-                    <li key={index}>
-                      {exercise.name} - {exercise.sets} sets of {exercise.reps} reps
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+      {workoutPlan.data.Months.map((month, monthIndex) => (
+        <div key={monthIndex} className="mb-4">
+          <h3 className="font-bold mb-2 text-lg">Month {monthIndex + 1}</h3>
+          {month.plan_for_each_week_in_the_month.days.map((day, dayIndex) => (
+            <div key={dayIndex} className="mb-2">
+              <p>
+                <strong>Day {dayIndex + 1}:</strong> {day.duration} minutes
+              </p>
+              <ul className="list-disc list-inside">
+                {day.exercises.map((exercise, exerciseIndex) => (
+                  <li key={exerciseIndex}>
+                    {exercise.name} - {exercise.sets} sets of {exercise.reps} ({exercise.target_muscle})
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  )}
+</div>
+
         </div>
       </div>
     </div>

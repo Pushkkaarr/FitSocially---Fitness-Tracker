@@ -22,6 +22,7 @@ import {
   chatBot,
   MealTracker,
   mealfetch,
+  fetchDataController,
 } from "../controller/userController.js";
 import isAuthenticated from "../config/auth.js";
 const router = express.Router();
@@ -44,5 +45,7 @@ router.route("/updateCalories").post(targetCalories);
 router.route("/chatbot").post(chatBot);
 router.route("/mealtracker").post(MealTracker);
 router.route("/mealfetch").get(mealfetch)
+
+router.route("/workout").post(fetchDataController)
 
 export default router;
