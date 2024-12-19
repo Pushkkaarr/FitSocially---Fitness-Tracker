@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const url = 'mongodb://localhost:27017/FitSocial';
+const url = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PS}@myprojects.suzev.mongodb.net/FitSocial`;
 
 export async function connectDB() {
   mongoose.connect(url)

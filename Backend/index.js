@@ -22,7 +22,7 @@ app.use('/uploads', express.static('uploads'));
 // app.use(cors());
 
 app.use(cors({
-  origin: 'https://fit-socially-fitness-tracker.vercel.app/', // Replace with your frontend URL
+  origin: process.env.DEPLOYED_LINK, // Replace with your frontend URL
   credentials: true // Allow credentials (cookies, authorization headers, etc.)
 }));
 
