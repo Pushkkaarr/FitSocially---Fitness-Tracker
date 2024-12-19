@@ -8,7 +8,7 @@ import connectDB from './config/database.js'
 import { app, server } from './socket/index.js';
 import tweetRoute from './routes/tweetRoute.js'
 import bodyParser from 'body-parser';
-
+import axios from 'axios';
 
 dotenv.config({ path: ".env" });
 
