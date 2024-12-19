@@ -74,7 +74,7 @@ export default function CheckEmailPage() {
             </Link>
           </p>
         </div>
-        <div className="hidden md:block w-1/2 flex items-center justify-center pt-9 pl-3 pr-6"> {/* Padding top and left */}
+        <div className=" md:block w-1/2 flex items-center justify-center pt-9 pl-3 pr-6"> {/* Padding top and left */}
   <img
     src="https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.MsRO199sctywGF3uu4_SOgHaE7%26pid%3DApi&f=1"
     alt="Fitness"

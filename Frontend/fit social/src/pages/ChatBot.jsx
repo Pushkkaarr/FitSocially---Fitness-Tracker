@@ -36,7 +36,7 @@ const ChatBot = () => {
 
       try {
         // Send the user message to the backend
-        const response = await axios.post('http://localhost:3000/api/user/chatbot', { message: userMessage }); // Adjust the URL as needed
+        const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/chatbot`, { message: userMessage }); // Adjust the URL as needed
         
         // Extract the bot's reply from the response structure
         const botReply = response.data.reply.candidates[0].content.parts[0].text; // Adjust based on your actual structure

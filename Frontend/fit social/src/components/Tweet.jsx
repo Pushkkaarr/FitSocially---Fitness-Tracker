@@ -51,7 +51,7 @@ const Tweet = ({ tweet }) => {
     }
   };
 
-  const imageUrl = `http://localhost:3000${tweet.image}`;
+  const imageUrl = `${import.meta.env.VITE_BACKEND_URL}${tweet.image}`;
 
   return (
     <div className="border-b border-gray-200 bg-white rounded-lg">

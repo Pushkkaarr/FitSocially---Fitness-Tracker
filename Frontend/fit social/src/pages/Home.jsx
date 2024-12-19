@@ -40,7 +40,7 @@ const Home = () => {
 
   /***socket connection */
   useEffect(()=>{
-    const socketConnection = io("http://localhost:3000",{
+    const socketConnection = io(`${import.meta.env.VITE_BACKEND_URL}`,{
       auth : {
         token : localStorage.getItem('token')
       },

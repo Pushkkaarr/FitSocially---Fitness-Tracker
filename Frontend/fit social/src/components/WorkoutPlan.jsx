@@ -73,7 +73,7 @@ const WorkoutPlan = () => {
       console.log(formData);
       
       const response = await axios.post(
-        "http://localhost:3000/api/user/workout",
+        `${import.meta.env.VITE_BACKEND_URL}/api/user/workout`,
         { formData },
         {
           headers: { "Content-Type": "application/json" },

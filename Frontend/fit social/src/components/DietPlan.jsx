@@ -50,7 +50,7 @@ const DietPlan = () => {
 
     try {
       const params = new URLSearchParams(formData).toString(); // Convert formData to query string
-      const response = await axios.get(`http://localhost:3000/api/user/DietPlan?${params}`);
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/DietPlan?${params}`);
       setDietPlan(response.data);
     } catch (err) {
       setError("Failed to generate diet plan. Please try again.");

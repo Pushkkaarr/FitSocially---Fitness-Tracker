@@ -31,7 +31,7 @@ function MealTracker({userId,onTotalCaloriesUpdate}) {
 
     try {
       // Send POST request to the backend API using axios
-      const response = await axios.post('http://localhost:3000/api/user/mealtracker', requestBody);
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/user/mealtracker`, requestBody);
 
       // Update state with the response data
       setCalorieData(response.data.meal);
@@ -51,7 +51,7 @@ function MealTracker({userId,onTotalCaloriesUpdate}) {
   
   const fetchMeals = async () => {
     try {
-      const response = await axios.get(`http://localhost:3000/api/user/mealfetch`, {
+      const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/user/mealfetch`, {
         params: { userId },
       });
       // Set the fetched meals in state

@@ -50,7 +50,7 @@ const CalorieCalculator = () => {
     if (validateForm()) {
       try {
         const response = await axios.post(
-          "http://localhost:3000/api/user/calculate-calories",
+          `${import.meta.env.VITE_BACKEND_URL}/api/user/calculate-calories`,
           formData
         );
         setResult({

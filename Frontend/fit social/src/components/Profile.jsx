@@ -156,7 +156,7 @@ const Profile = () => {
           {/* Display tweet image if it exists */}
           {tweet.image && (
             <img
-              src={`http://localhost:3000${tweet.image}`}
+              src={`${import.meta.env.VITE_BACKEND_URL}${tweet.image}`}
               alt={<CiImageOn />}
               className="w-full h-auto object-cover rounded-lg mb-2"
             />
