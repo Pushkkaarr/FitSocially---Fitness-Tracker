@@ -47,6 +47,23 @@ connectDB()
         server.listen(port, () => {
             console.log(`Server running at http://localhost:${port}`);
         });
+
+         // The reloader function to keep the server active
+        const url = `https://fitsocially-fitness-tracker.onrender.com`; // Replace with your Render URL
+        const interval = 30000; // Interval in milliseconds (30 seconds)
+    
+        function reloadWebsite() {
+          axios.get(url)
+            .then(response => {
+              console.log(`Reloaded at ${new Date().toISOString()}: Status Code ${response.status}`);
+            })
+            .catch(error => {
+              console.error(`Error reloading at ${new Date().toISOString()}:`, error.message);
+            });
+        }
+    
+        // Start the reloader function at the specified interval
+        setInterval(reloadWebsite, interval);
     })
     .catch((error) => {
         console.error("Failed to start server due to DB connection error:", error);
