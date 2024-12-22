@@ -49,7 +49,7 @@ connectDB()
         });
 
          // The reloader function to keep the server active
-        const url = `https://fitsocially-fitness-tracker.onrender.com`; // Replace with your Render URL
+        const url = process.env.DEPLOYED_LINK; // Replace with your Render URL
         const interval = 30000; // Interval in milliseconds (30 seconds)
     
         function reloadWebsite() {
